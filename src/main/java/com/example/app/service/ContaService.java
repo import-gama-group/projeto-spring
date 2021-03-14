@@ -15,6 +15,8 @@ public class ContaService {
 	ContaRepository contaRepository;
 
 	public void criarConta(Integer numero, TipoConta tipo, Usuario usuario) {
+		
+		
 		Conta conta = new Conta();
 		conta.setNumero(numero); 
 		conta.setTipo(tipo);
