@@ -32,9 +32,9 @@ public class UsuarioService {
 		contaService.criarConta(123456, TipoConta.CREDITO, usuario);
 		
 		
-		planoContaService.criarContaPadrao(usuario, "RECEITAS", TipoMovimento.R, true);
-		planoContaService.criarContaPadrao(usuario, "DESPESAS", TipoMovimento.D, true);
-		planoContaService.criarContaPadrao(usuario, "TRANSFERÊNCIA ENTRE USUÁRIOS", TipoMovimento.TU, true);
-		planoContaService.criarContaPadrao(usuario, "TRANSFERÊNCIA ENTRE CONTAS", TipoMovimento.TC, true);
+		planoContaService.criarPlanoContaPadrao(usuario, "RECEITAS", TipoMovimento.R, true);
+		planoContaService.criarPlanoContaPadrao(usuario, "DESPESAS", TipoMovimento.D, true);
+		planoContaService.criarPlanoContaPadrao(usuario, "TRANSFERÊNCIA ENTRE USUÁRIOS", TipoMovimento.TU, true);
+		planoContaService.criarPlanoContaPadrao(usuario, "TRANSFERÊNCIA ENTRE CONTAS", TipoMovimento.TC, true);
 	}
 }
