@@ -22,7 +22,8 @@ public class LancamentoController {
 	@Autowired
 	LancamentoService service;
 	
-	private LancamentoRepository lancamentoRepository;
+	@Autowired
+	LancamentoRepository lancamentoRepository;
 	
 	@GetMapping
 	public List<Lancamento> listar(){
