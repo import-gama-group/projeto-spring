@@ -30,10 +30,12 @@ public class ContaService {
 		
 		contaRepository.save(conta);
 		
-		Usuario user = usuarioService.findById(usuario.getId());
-		user.getContas().add(conta);
-		usuarioRepository.save(user);
-		System.out.println(user);
+		//Usuario user = usuarioService.findById(usuario.getId());
+		//user.getContas().add(conta);
+		//usuarioRepository.save(user);
+		//System.out.println(user);
+		//user.addToContas(conta);
+		
 		
 	}
 
@@ -53,7 +55,7 @@ public class ContaService {
 	public Conta findById(Integer id) {
 	    return contaRepository.findById(id).get();
 	}
-
+	
 
 	//TODO criar metodo para gerar numero de conta randomico e não repetido
 }

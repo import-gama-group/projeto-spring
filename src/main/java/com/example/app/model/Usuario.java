@@ -33,7 +33,6 @@ public class Usuario {
 		this.password = password;
 		this.name = name;
 		this.cpf = cpf;
-		this.contas = contas;
 	}
 	
 	// Getters and Setters
@@ -82,6 +81,9 @@ public class Usuario {
 
 	public void setContas(List<Conta> contas) {
 		this.contas = contas;
+	}
+	public void addToContas(Conta conta){
+		contas.add(conta);
 	}
 	
 	
