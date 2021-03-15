@@ -1,5 +1,8 @@
 package com.example.app.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +23,9 @@ public class ContaService {
 	
 	@Autowired
 	UsuarioRepository usuarioRepository;
-
+	
+	List<Conta> contas = new ArrayList<Conta>();
+	
 	public void criarConta(Integer numero, TipoConta tipo, Usuario usuario) {
 		
 		Conta conta = new Conta();
@@ -29,6 +34,14 @@ public class ContaService {
 		conta.setUsuario(usuario);
 		
 		contaRepository.save(conta);
+		
+		System.out.println(usuario.getId());
+		System.out.println(usuario.getName());
+		
+		contas.add(conta);
+		usuario.setContas(contas);
+	//	usuario.getContas().add(conta.getId());
+		System.out.println(usuario.getContas().toString());
 		
 		//Usuario user = usuarioService.findById(usuario.getId());
 		//user.getContas().add(conta);

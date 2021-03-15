@@ -1,12 +1,17 @@
 package com.example.app.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 public class Usuario {
@@ -22,11 +27,11 @@ public class Usuario {
 	
 	
 	public Usuario() {
-		this(null, null, null, null, null, null);
+		this(null, null, null, null, null);
 	}
 	
 	// Constructor
-	public Usuario(Integer id, String login, String password, String name, String cpf, List<Conta> contas) {
+	public Usuario(Integer id, String login, String password, String name, String cpf) {
 		super();
 		this.id = id;
 		this.login = login;

@@ -1,5 +1,8 @@
 package com.example.app.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.app.model.Conta.TipoConta;
 import com.example.app.model.PlanoConta.TipoMovimento;
+import com.example.app.model.Conta;
 import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
 
@@ -30,6 +34,7 @@ public class UsuarioService {
 		
 		contaService.criarConta(123456, TipoConta.BANCO, usuario);
 		contaService.criarConta(123456, TipoConta.CREDITO, usuario);
+		
 				
 		planoContaService.criarPlanoContaPadrao(usuario, "RECEITAS", TipoMovimento.R, true);
 		planoContaService.criarPlanoContaPadrao(usuario, "DESPESAS", TipoMovimento.D, true);
