@@ -1,9 +1,12 @@
 package com.example.app.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Usuario {
@@ -14,27 +17,29 @@ public class Usuario {
 	private String password;
 	private String name;
 	private String cpf;
+	@OneToMany
+	private List<Conta> contas;
 	
 	
 	public Usuario() {
-		this(null, null, null, null, null);
+		this(null, null, null, null, null, null);
 	}
 	
 	// Constructor
-	public Usuario(Integer id, String login, String password, String name, String cpf) {
+	public Usuario(Integer id, String login, String password, String name, String cpf, List<Conta> contas) {
 		super();
 		this.id = id;
 		this.login = login;
 		this.password = password;
 		this.name = name;
 		this.cpf = cpf;
+		this.contas = contas;
 	}
-
+	
 	// Getters and Setters
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -70,5 +75,14 @@ public class Usuario {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
+	public List<Conta> getContas() {
+		return contas;
+	}
+
+	public void setContas(List<Conta> contas) {
+		this.contas = contas;
+	}
+	
 	
 }

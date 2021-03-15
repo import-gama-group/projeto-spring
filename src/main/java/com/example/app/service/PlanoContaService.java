@@ -3,10 +3,10 @@ package com.example.app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.app.model.Conta;
 import com.example.app.model.PlanoConta;
 import com.example.app.model.Usuario;
 import com.example.app.repository.PlanoContaRepository;
-import com.example.app.repository.UsuarioRepository;
 
 import com.example.app.model.PlanoConta.TipoMovimento;
 
@@ -15,9 +15,6 @@ public class PlanoContaService {
 
 	@Autowired
 	PlanoContaRepository planoContaRepository;
-	
-	@Autowired
-	UsuarioRepository usuarioRepository;
 	
 	public void criarPlanoContaPadrao(Usuario usuario, String nome, TipoMovimento tipo, Boolean padrao) {
 		
@@ -43,5 +40,11 @@ public class PlanoContaService {
 			
 			planoContaRepository.save(plano);
 		}
+	}
+
+
+	public PlanoConta findById(Integer id) {
+		// TODO Auto-generated method stub
+		return planoContaRepository.findById(id).get();
 	}
 }

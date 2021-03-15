@@ -1,5 +1,6 @@
 package com.example.app.model;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ public class Lancamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private LocalDate date;
+	private Date date;
 	@ManyToOne
 	private PlanoConta plano;
 	@ManyToOne
@@ -35,7 +36,7 @@ public class Lancamento {
 	}
 	
 	// Constructor
-	public Lancamento(Integer id, LocalDate date, PlanoConta plano, Conta conta, TipoMovimento tipoMov, String descricao,
+	public Lancamento(Integer id, Date date, PlanoConta plano, Conta conta, TipoMovimento tipoMov, String descricao,
 			String login, Double valor, Conta contaDestino) {
 		super();
 		this.id = id;
@@ -56,10 +57,10 @@ public class Lancamento {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public PlanoConta getPlano() {
