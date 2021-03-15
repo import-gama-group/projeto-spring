@@ -1,17 +1,12 @@
 package com.example.app.model;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import com.example.app.model.PlanoConta.TipoMovimento;
 
 @Entity
 public class Lancamento {
@@ -23,8 +18,6 @@ public class Lancamento {
 	private PlanoConta plano;
 	@ManyToOne
 	private Conta conta;
-	@Enumerated(EnumType.STRING)
-	private TipoMovimento tipoMov;
 	private String descricao;
 	private String login;
 	private Double valor;
@@ -32,18 +25,17 @@ public class Lancamento {
 	private Conta contaDestino;
 	
 	public Lancamento() {
-		this(null, null, null, null, null, null, null, null, null);
+		this(null, null, null, null, null, null, null, null);
 	}
 	
 	// Constructor
-	public Lancamento(Integer id, Date date, PlanoConta plano, Conta conta, TipoMovimento tipoMov, String descricao,
+	public Lancamento(Integer id, Date date, PlanoConta plano, Conta conta, String descricao,
 			String login, Double valor, Conta contaDestino) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.plano = plano;
 		this.conta = conta;
-		this.tipoMov = tipoMov;
 		this.descricao = descricao;
 		this.login = login;
 		this.valor = valor;
@@ -74,12 +66,6 @@ public class Lancamento {
 	}
 	public void setConta(Conta conta) {
 		this.conta = conta;
-	}
-	public TipoMovimento getTipoMov() {
-		return tipoMov;
-	}
-	public void setTipoMov(TipoMovimento tipoMov) {
-		this.tipoMov = tipoMov;
 	}
 	public String getDescricao() {
 		return descricao;

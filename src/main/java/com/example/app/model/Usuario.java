@@ -1,17 +1,9 @@
 package com.example.app.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 public class Usuario {
@@ -22,9 +14,6 @@ public class Usuario {
 	private String password;
 	private String name;
 	private String cpf;
-	@OneToMany
-	private List<Conta> contas;
-	
 	
 	public Usuario() {
 		this(null, null, null, null, null);
@@ -79,17 +68,5 @@ public class Usuario {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-
-	public List<Conta> getContas() {
-		return contas;
-	}
-
-	public void setContas(List<Conta> contas) {
-		this.contas = contas;
-	}
-	public void addToContas(Conta conta){
-		contas.add(conta);
-	}
-	
 	
 }

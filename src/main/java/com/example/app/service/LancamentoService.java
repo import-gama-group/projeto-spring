@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.app.model.Conta;
-import com.example.app.model.Conta.TipoConta;
 import com.example.app.model.Lancamento;
 import com.example.app.model.PlanoConta;
 import com.example.app.model.PlanoConta.TipoMovimento;
 import com.example.app.model.Usuario;
+import com.example.app.repository.ContaRepository;
 import com.example.app.repository.LancamentoRepository;
 
 @Service
@@ -18,6 +18,9 @@ public class LancamentoService {
 	
 	@Autowired
 	LancamentoRepository lancamentoRepository;
+	
+	@Autowired
+	ContaRepository contaRepository;
 	
 	@Autowired
 	ContaService contaService;
@@ -45,10 +48,8 @@ public class LancamentoService {
 		l.setConta(conta);
 		l.setValor(lancamento.getValor());
 		l.setDescricao(lancamento.getDescricao());
-		l.setTipoMov(planoConta.getTipo()); //TODO verificar a necessidade deste atributo
 		
 		Double valor = lancamento.getValor();
-		Conta contaDestino = lancamento.getConta();
 		
 		if(planoConta.getTipo().equals(TipoMovimento.D)) {			
 			
@@ -59,14 +60,14 @@ public class LancamentoService {
 			contaService.creditar(conta, valor);
 			
 		} else if (planoConta.getTipo().equals(TipoMovimento.TC)){
-			Conta conta2 = usuario.getContas().get(1); // desafio é buscar na lista
 			
-			l.setContaDestino(conta2);//falta identificar a contaDestino
+			l.setContaDestino(contaRepository.findByUsuarioId(usuario.getId()).get(1));
+			Conta contaDestino = contaRepository.findByUsuarioId(usuario.getId()).get(1);
 		
-			contaService.transferir(conta, valor, conta2);
-		} else  if (planoConta.getTipo().equals(TipoMovimento.TU)){
-			
 			contaService.transferir(conta, valor, contaDestino);
+		} else  if (planoConta.getTipo().equals(TipoMovimento.TU)){
+			Conta contaDestino = null;
+			contaService.transferir(conta, valor, contaDestino );
 		} else {
 			//mensagem de erro - tipo de movimento inválido			
 		}

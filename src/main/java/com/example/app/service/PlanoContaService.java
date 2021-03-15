@@ -3,7 +3,6 @@ package com.example.app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.app.model.Conta;
 import com.example.app.model.PlanoConta;
 import com.example.app.model.Usuario;
 import com.example.app.repository.PlanoContaRepository;
