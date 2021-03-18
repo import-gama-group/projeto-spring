@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,8 +62,9 @@ public class LancamentoService {
 			
 		} else if (planoConta.getTipo().equals(TipoMovimento.TC)){
 			
-			l.setContaDestino(contaRepository.findByUsuarioId(usuario.getId()).get(1));
-			Conta contaDestino = contaRepository.findByUsuarioId(usuario.getId()).get(1);
+			List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
+			l.setContaDestino(contas.get(1));
+			Conta contaDestino = contas.get(1);
 		
 			contaService.transferir(conta, valor, contaDestino);
 		} else  if (planoConta.getTipo().equals(TipoMovimento.TU)){

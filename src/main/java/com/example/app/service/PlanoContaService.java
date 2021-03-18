@@ -30,20 +30,29 @@ public class PlanoContaService {
 	public void cadastrarPlanoContaPersonalizado(PlanoConta planoConta) {
 		// TODO verificar se o usuario está logado
 		
-		if(planoConta.getTipo().equals(TipoMovimento.R)|| planoConta.getTipo().equals(TipoMovimento.D)) {			
-				
 			PlanoConta plano = new PlanoConta();
+					
+			if(planoConta.getTipo().equals(TipoMovimento.R) && planoConta.getNome().isEmpty()) {			
+				plano.setNome("RECEITA");
+			}	else if (planoConta.getTipo().equals(TipoMovimento.D) && planoConta.getNome().isEmpty()) {
+				plano.setNome("DESPESA");
+			} else if (planoConta.getTipo().equals(TipoMovimento.TC) && planoConta.getNome().isEmpty()){
+				plano.setNome("TRANSFERÊNCIA ENTRE CONTAS");
+			} else if (planoConta.getTipo().equals(TipoMovimento.TU) && planoConta.getNome().isEmpty()){
+				plano.setNome("TRANSFERÊNCIA ENTRE USUÁRIOS");
+			} else {
+				plano.setNome(planoConta.getNome());
+			}
+			
 			plano.setUsuario(planoConta.getUsuario());
-			plano.setNome(planoConta.getNome());
 			plano.setTipo(planoConta.getTipo());
 			
 			planoContaRepository.save(plano);
-		}
+		
 	}
 
 
 	public PlanoConta findById(Integer id) {
-		// TODO Auto-generated method stub
 		return planoContaRepository.findById(id).get();
 	}
 }
