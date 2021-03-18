@@ -36,51 +36,47 @@ public class LancamentoService {
 
 		//  verificar se o usuario está logado
 		//  buscar id do usuario logado
-		
-		Conta conta = contaService.findById(lancamento.getConta().getId());
-		Usuario usuario = usuarioService.findById(conta.getUsuario().getId());
-		PlanoConta planoConta = planoContaService.findById(lancamento.getPlano().getId());
-		
-		Date data = new Date(System.currentTimeMillis()); // TODO tratamento da data
-		
-		Lancamento l = new Lancamento();
-		l.setDate(data);
-		l.setPlano(planoConta);
-		l.setConta(conta);
-		l.setValor(lancamento.getValor());
-		l.setDescricao(lancamento.getDescricao());
-		
-		Double valor = lancamento.getValor();
-		
-		if(planoConta.getTipo().equals(TipoMovimento.D)) {			
+		try {
 			
-			contaService.debitar(conta, valor);
+			Conta conta = contaService.findById(lancamento.getConta().getId());
+			Usuario usuario = usuarioService.findById(conta.getUsuario().getId());
+			PlanoConta planoConta = planoContaService.findById(lancamento.getPlano().getId());
 			
-		} else if (planoConta.getTipo().equals(TipoMovimento.R)) {
+			Date data = new Date(System.currentTimeMillis()); // TODO tratamento da data
 			
-			contaService.creditar(conta, valor);
+			Lancamento l = new Lancamento();
+			l.setDate(data);
+			l.setPlano(planoConta);
+			l.setConta(conta);
+			l.setValor(lancamento.getValor());
+			l.setDescricao(lancamento.getDescricao());
 			
-		} else if (planoConta.getTipo().equals(TipoMovimento.TC)){
+			Double valor = lancamento.getValor();
 			
-			List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
-			l.setContaDestino(contas.get(1));
-			Conta contaDestino = contas.get(1);
-		
-			contaService.transferir(conta, valor, contaDestino);
-		} else  if (planoConta.getTipo().equals(TipoMovimento.TU)){
-			Conta contaDestino = null;
-			contaService.transferir(conta, valor, contaDestino );
-		} else {
-			//mensagem de erro - tipo de movimento inválido			
+			if(planoConta.getTipo().equals(TipoMovimento.R) && planoConta.getNome().isEmpty()) {
+				planoConta.setNome("RECEITA");	
+				contaService.creditar(conta, valor);
+			}	else if (planoConta.getTipo().equals(TipoMovimento.R)) {
+				contaService.creditar(conta, valor);
+			} else if (planoConta.getTipo().equals(TipoMovimento.D) && planoConta.getNome().isEmpty()) {
+				planoConta.setNome("DESPESA");
+				contaService.debitar(conta, valor);	
+			} else if (planoConta.getTipo().equals(TipoMovimento.D)) {				
+				contaService.debitar(conta, valor);				
+			} else if (planoConta.getTipo().equals(TipoMovimento.TC)){			
+				List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
+				l.setContaDestino(contas.get(1));
+				Conta contaDestino = contas.get(1);
+				contaService.transferir(conta, valor, contaDestino);
+			} else  if (planoConta.getTipo().equals(TipoMovimento.TU)){
+				Conta contaDest = lancamento.getContaDestino();;
+				contaService.transferir(conta, valor, contaDest );
+			}
+			
+			lancamentoRepository.save(l);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-	
-		lancamentoRepository.save(l);
 	}
 }
-
-//if(lancamento.getConta().getTipo().equals(TipoConta.CREDITO) && !lancamento.getPlano().getTipo().equals(TipoMovimento.D)) {	
-//ESTE SERIA O ERRO - operação invalida
-//	} else {
-
-
-//*EXTRA criar atributo limite nas contas

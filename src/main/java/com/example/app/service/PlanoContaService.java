@@ -29,26 +29,19 @@ public class PlanoContaService {
 	
 	public void cadastrarPlanoContaPersonalizado(PlanoConta planoConta) {
 		// TODO verificar se o usuario está logado
+		// TODO mensagem de erro se o usuário tentar cadastrar um tipo transferência
+		
+		if (!planoConta.getTipo().equals(TipoMovimento.D)) {
+			// TODO mensagem de erro (Tipo de Movimento inválido)
+		} else {
 		
 			PlanoConta plano = new PlanoConta();
-					
-			if(planoConta.getTipo().equals(TipoMovimento.R) && planoConta.getNome().isEmpty()) {			
-				plano.setNome("RECEITA");
-			}	else if (planoConta.getTipo().equals(TipoMovimento.D) && planoConta.getNome().isEmpty()) {
-				plano.setNome("DESPESA");
-			} else if (planoConta.getTipo().equals(TipoMovimento.TC) && planoConta.getNome().isEmpty()){
-				plano.setNome("TRANSFERÊNCIA ENTRE CONTAS");
-			} else if (planoConta.getTipo().equals(TipoMovimento.TU) && planoConta.getNome().isEmpty()){
-				plano.setNome("TRANSFERÊNCIA ENTRE USUÁRIOS");
-			} else {
-				plano.setNome(planoConta.getNome());
-			}
-			
+			plano.setNome(planoConta.getNome());
 			plano.setUsuario(planoConta.getUsuario());
 			plano.setTipo(planoConta.getTipo());
 			
 			planoContaRepository.save(plano);
-		
+		}
 	}
 
 

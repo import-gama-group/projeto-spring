@@ -1,9 +1,11 @@
 package com.example.app.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +26,12 @@ public class ContaController {
 	@GetMapping
 	public List<Conta> listar(){
 		return contaRepository.findAll();
+	}
+	
+	@GetMapping("/usuario_id/{id}")
+		List<Conta> one(@PathVariable Integer id) {
+	    
+		return contaRepository.findByUsuarioId(id);
+	    // TODO .orElseThrow(() -> new EmployeeNotFoundException(id));
 	}
 }
