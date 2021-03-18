@@ -24,9 +24,15 @@ public class ContaService {
 		contaRepository.save(conta);
 		
 	}
+	
 
 	public void debitar(Conta conta, Double valor) {
-		conta.setSaldo(conta.getSaldo() - valor);
+
+		if (conta.getSaldo() < valor) {
+			throw new IllegalArgumentException("Saldo insuficiente");
+		} else {
+			conta.setSaldo(conta.getSaldo() - valor);
+		}
 	}
 
 	public void creditar(Conta conta, Double valor) {
@@ -35,7 +41,11 @@ public class ContaService {
 	
 	public void transferir(Conta conta, Double valor, Conta contaDestino) {
 		
-		conta.setSaldo(conta.getSaldo() - valor);
+		if (conta.getSaldo() < valor) {
+			throw new IllegalArgumentException("Saldo insuficiente");
+		} else {
+			conta.setSaldo(conta.getSaldo() - valor);
+		}
 		
 		Conta contaReceber = this.findById(contaDestino.getId());
 		

@@ -52,30 +52,31 @@ public class LancamentoService {
 			l.setDescricao(lancamento.getDescricao());
 			
 			Double valor = lancamento.getValor();
-			
-			if(planoConta.getTipo().equals(TipoMovimento.R) && planoConta.getNome().isEmpty()) {
-				planoConta.setNome("RECEITA");	
+
+			if (planoConta.getTipo().equals(TipoMovimento.R) && planoConta.getNome().isEmpty()) {
+				planoConta.setNome("RECEITA");
 				contaService.creditar(conta, valor);
-			}	else if (planoConta.getTipo().equals(TipoMovimento.R)) {
+			} else if (planoConta.getTipo().equals(TipoMovimento.R)) {
 				contaService.creditar(conta, valor);
 			} else if (planoConta.getTipo().equals(TipoMovimento.D) && planoConta.getNome().isEmpty()) {
 				planoConta.setNome("DESPESA");
-				contaService.debitar(conta, valor);	
-			} else if (planoConta.getTipo().equals(TipoMovimento.D)) {				
-				contaService.debitar(conta, valor);				
-			} else if (planoConta.getTipo().equals(TipoMovimento.TC)){			
+				contaService.debitar(conta, valor);
+			} else if (planoConta.getTipo().equals(TipoMovimento.D)) {
+				contaService.debitar(conta, valor);
+			} else if (planoConta.getTipo().equals(TipoMovimento.TC)) {
 				List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
 				l.setContaDestino(contas.get(1));
 				Conta contaDestino = contas.get(1);
 				contaService.transferir(conta, valor, contaDestino);
-			} else  if (planoConta.getTipo().equals(TipoMovimento.TU)){
-				Conta contaDest = lancamento.getContaDestino();;
-				contaService.transferir(conta, valor, contaDest );
+			} else if (planoConta.getTipo().equals(TipoMovimento.TU)) {
+				Conta contaDest = lancamento.getContaDestino();
+				contaService.transferir(conta, valor, contaDest);
 			}
-			
+
 			lancamentoRepository.save(l);
 			
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
+			System.out.println(e);
 			// TODO: handle exception
 		}
 	}
