@@ -62,6 +62,7 @@ public class ContaServiceTest {
 		Mockito.when(contaRespository.findById(conta1.getId()))
 		.thenReturn(java.util.Optional.of(conta1));		
 	} 
+	
 	/* TODO verificar como incluir a segunda conta no MOCKBEAN
 	 * 
 	@Test
