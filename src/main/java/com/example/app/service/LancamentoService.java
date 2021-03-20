@@ -76,8 +76,7 @@ public class LancamentoService {
 			lancamentoRepository.save(l);
 			
 		} catch (IllegalArgumentException e) {
-			System.out.println(e);
-			// TODO: handle exception
+			e.printStackTrace(); // TODO verificar a forma correta de imprimir e se o catch está funcionando
 		}
 	}
 }
