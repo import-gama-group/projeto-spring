@@ -13,9 +13,8 @@ public class ContaService {
 
 	@Autowired
 	ContaRepository contaRepository;
-
+	
 	public void criarConta(Integer numero, TipoConta tipo, Usuario usuario) {
-		
 		
 		Conta conta = new Conta();
 		conta.setNumero(numero); 
@@ -23,6 +22,38 @@ public class ContaService {
 		conta.setUsuario(usuario);
 		
 		contaRepository.save(conta);
+		
+	}
+	
+
+	public void debitar(Conta conta, Double valor) {
+
+		if (conta.getSaldo() < valor) {
+			throw new IllegalArgumentException("Saldo insuficiente");
+		} else {
+			conta.setSaldo(conta.getSaldo() - valor);
+		}
+	}
+
+	public void creditar(Conta conta, Double valor) {
+		conta.setSaldo(conta.getSaldo() + valor);
+	}
+	
+	public void transferir(Conta conta, Double valor, Conta contaDestino) {
+		
+		if (conta.getSaldo() < valor) {
+			throw new IllegalArgumentException("Saldo insuficiente");
+		} else {
+			conta.setSaldo(conta.getSaldo() - valor);
+		}
+		
+		Conta contaReceber = this.findById(contaDestino.getId());
+		
+		contaReceber.setSaldo(contaReceber.getSaldo() + valor);
+	}
+	
+	public Conta findById(Integer id) {
+	    return contaRepository.findById(id).get();
 	}
 	
 	//TODO criar metodo para gerar numero de conta randomico e não repetido

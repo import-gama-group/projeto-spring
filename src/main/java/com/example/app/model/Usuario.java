@@ -15,7 +15,6 @@ public class Usuario {
 	private String name;
 	private String cpf;
 	
-	
 	public Usuario() {
 		this(null, null, null, null, null);
 	}
@@ -29,12 +28,11 @@ public class Usuario {
 		this.name = name;
 		this.cpf = cpf;
 	}
-
+	
 	// Getters and Setters
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.model.PlanoConta;
 import com.example.app.model.Usuario;
 import com.example.app.repository.PlanoContaRepository;
+
 import com.example.app.model.PlanoConta.TipoMovimento;
 
 @Service
@@ -25,12 +26,26 @@ public class PlanoContaService {
 		planoContaRepository.save(plano);
 	}
 	
-	// criar metodo cadastrarPlanoContaPersonalido() para criar plano conta onde o usuario pode 
-	// com utilização de login
-	public void cadastrarPlanoContaPersonalizado() {
-		// verificar se o usuario está logado
-		// buscar id do usuario logado
-		// o usuario pode escolher apenas os ENUM receita ou despesa // e descrição do plano de conta
+	
+	public void cadastrarPlanoContaPersonalizado(PlanoConta planoConta) {
+		// TODO verificar se o usuario está logado
+		// TODO mensagem de erro se o usuário tentar cadastrar um tipo transferência
 		
-	}	
+		if (!planoConta.getTipo().equals(TipoMovimento.D)) {
+			// TODO mensagem de erro (Tipo de Movimento inválido)
+		} else {
+		
+			PlanoConta plano = new PlanoConta();
+			plano.setNome(planoConta.getNome());
+			plano.setUsuario(planoConta.getUsuario());
+			plano.setTipo(planoConta.getTipo());
+			
+			planoContaRepository.save(plano);
+		}
+	}
+
+
+	public PlanoConta findById(Integer id) {
+		return planoContaRepository.findById(id).get();
+	}
 }

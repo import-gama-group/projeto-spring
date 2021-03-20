@@ -1,36 +1,82 @@
 package com.example.app.service;
 
+import java.sql.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.app.model.Conta;
 import com.example.app.model.Lancamento;
+import com.example.app.model.PlanoConta;
+import com.example.app.model.PlanoConta.TipoMovimento;
+import com.example.app.model.Usuario;
+import com.example.app.repository.ContaRepository;
+import com.example.app.repository.LancamentoRepository;
 
 @Service
 public class LancamentoService {
+	
+	@Autowired
+	LancamentoRepository lancamentoRepository;
+	
+	@Autowired
+	ContaRepository contaRepository;
+	
+	@Autowired
+	ContaService contaService;
+	
+	@Autowired 
+	PlanoContaService planoContaService;
+	
+	@Autowired
+	UsuarioService usuarioService;
 
 	public void cadastrarLancamento(Lancamento lancamento) {
-		// TODO Auto-generated method stub
-		
-		// TODO Criar método para criar Lancamento
+
 		//  verificar se o usuario está logado
 		//  buscar id do usuario logado
-		//  escolher a conta que será trabalhada
-		// 
-		// IF BANCO
-			//tem acesso todos os TipoMovimento do Plano de Conta	
-		// IF CREDITO
-		   // acesso apenas a TipoMovimento D
+		try {
 			
-		//comportamentos // METODOS CHAMADOS NO CONTASERVICE
-		//if TipoPlanoConta for D
-			//descrescer o valor do debito no saldo da conta 
-		//if TipoPlanoConta for R
-			//acrescer o valor do debito no saldo da conta
-		//if TipoPlanoConta for TC
-		//acrescer o valor no saldo da contaCredito e decresce no saldo da contaBanco
-		//if TipoPlanoConta for TU
-		//acrescer o valor no saldo da contaBanco do outro usuario e decresce no saldo da contaBanco
+			Conta conta = contaService.findById(lancamento.getConta().getId());
+			Usuario usuario = usuarioService.findById(conta.getUsuario().getId());
+			PlanoConta planoConta = planoContaService.findById(lancamento.getPlano().getId());
+			
+			Date data = new Date(System.currentTimeMillis()); // TODO tratamento da data
+			
+			Lancamento l = new Lancamento();
+			l.setDate(data);
+			l.setPlano(planoConta);
+			l.setConta(conta);
+			l.setValor(lancamento.getValor());
+			l.setDescricao(lancamento.getDescricao());
+			
+			Double valor = lancamento.getValor();
+
+			if (planoConta.getTipo().equals(TipoMovimento.R) && planoConta.getNome().isEmpty()) {
+				planoConta.setNome("RECEITA");
+				contaService.creditar(conta, valor);
+			} else if (planoConta.getTipo().equals(TipoMovimento.R)) {
+				contaService.creditar(conta, valor);
+			} else if (planoConta.getTipo().equals(TipoMovimento.D) && planoConta.getNome().isEmpty()) {
+				planoConta.setNome("DESPESA");
+				contaService.debitar(conta, valor);
+			} else if (planoConta.getTipo().equals(TipoMovimento.D)) {
+				contaService.debitar(conta, valor);
+			} else if (planoConta.getTipo().equals(TipoMovimento.TC)) {
+				List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
+				l.setContaDestino(contas.get(1));
+				Conta contaDestino = contas.get(1);
+				contaService.transferir(conta, valor, contaDestino);
+			} else if (planoConta.getTipo().equals(TipoMovimento.TU)) {
+				Conta contaDest = lancamento.getContaDestino();
+				contaService.transferir(conta, valor, contaDest);
+			}
+
+			lancamentoRepository.save(l);
+			
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace(); // TODO verificar a forma correta de imprimir e se o catch está funcionando
+		}
 	}
-
 }
-
-//*EXTRA criar atributo limite nas contas
