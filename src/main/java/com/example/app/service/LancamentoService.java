@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.app.model.Conta;
+import com.example.app.model.Conta.TipoConta;
 import com.example.app.model.Lancamento;
 import com.example.app.model.PlanoConta;
 import com.example.app.model.PlanoConta.TipoMovimento;
@@ -90,7 +91,7 @@ public class LancamentoService {
 		}
 	}
 	
-	public List<Lancamento> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
+	public List<Object> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
 		
 		//Conta contaId = contaService.findById(conta.getId());
 		Optional<Usuario> opp = usuarioRepository.findByLogin(login);
@@ -99,47 +100,47 @@ public class LancamentoService {
 		Conta contaBanco = contas.get(0);
 		Conta contaCredito = contas.get(1);
 		
+		
+		
+		
 	    DateFormat formatter1 = new SimpleDateFormat("MM-dd-yy");  
 	    Date dataInicial = (Date)formatter1.parse(dataI); 
 	    DateFormat formatter2 = new SimpleDateFormat("MM-dd-yy");  
 	    Date dataFinal = (Date)formatter2.parse(dataF); 
 		
-		Date dataLancamento;
-	//	List<Conta> contas = contaRepository.findAll();
+
 		List<Lancamento> lancamentos = lancamentoRepository.findAll();
-		//List<Lancamento> lancamentosDentroDoPeriodo = lancamentoRepository.findAll();
-		List<Lancamento> lancamentosContaBanco = new ArrayList<>();
-		List<Lancamento> lancamentosContaCredito = new ArrayList<>();
 		
 		
+		List<Lancamento> lancamentosContaBanco = listarLancamentos(lancamentos, contaBanco, dataInicial, dataFinal);
+		List<Lancamento> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
 		
-		for(Conta conta: contas) {
-			for(Lancamento lancamento: lancamentos) {
-				dataLancamento = lancamento.getDate();
-				if(dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal) && (lancamento.getConta() == conta)) {
-					lancamentosCombinados.add(lancamento);
-				}
-			}
-		//lancamentosCombinados.addAll(lancamentosDentroDoPeriodo);
-		}
-		System.out.println("\n\nTô sendo executado\n\n");
-		System.out.println(lancamentosCombinados.toString() + "\n\n");
-	
+		List<Object> listafinal = new ArrayList<>();
+		listafinal.add(contaBanco);
+		listafinal.add(contaCredito);
+		listafinal.add(lancamentosContaBanco);
+		listafinal.add(lancamentosContaCredito);
 		
-		
-		return lancamentosCombinados;
+		return listafinal;
 		
 	}
 	
-	public void listarLancamentos() {
-		for(Conta conta: contas) {
-			for(Lancamento lancamento: lancamentos) {
-				dataLancamento = lancamento.getDate();
-				if(dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal) && (lancamento.getConta() == conta)) {
-					lancamentosCombinados.add(lancamento);
-				}
+	public List<Lancamento> listarLancamentos(List<Lancamento> lancamentos, Conta conta, Date dataInicial, Date dataFinal) {
+		
+		List<Lancamento> lancamentosConsolidados = new ArrayList<>();
+		
+		for(Lancamento lancamento: lancamentos) {
+			Date dataLancamento = lancamento.getDate();
+			if  (lancamento.getConta().getId() == conta.getId() &&  (dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal))  ) {
+				
+					lancamentosConsolidados.add(lancamento);
+				
+				
 			}
+			
 		}
+		return lancamentosConsolidados;
+		
 	}
 	
 	

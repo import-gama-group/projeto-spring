@@ -24,7 +24,7 @@ public class DashboardController {
 	
 	
 	@GetMapping
-	public List<Lancamento> listarLancamentos(@RequestParam String dataInicial, @RequestParam String dataFinal, @RequestParam String login ) throws ParseException{
+	public List<Object> listarLancamentos(@RequestParam String dataInicial, @RequestParam String dataFinal, @RequestParam String login ) throws ParseException{
 		return lancamentoService.listarLancamentosPorData(dataInicial, dataFinal, login);
 	}
 	
