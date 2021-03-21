@@ -3,6 +3,7 @@ package com.example.app.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -66,6 +67,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
 		.antMatchers(SWAGGER_WHITELIST).permitAll()
 		.antMatchers("/h2-console/**").permitAll()
 		.antMatchers("/login").permitAll()
+		.antMatchers(HttpMethod.POST, "/clientes").permitAll()
 		
 		//BASIC AUTH
 		//.anyRequest().authenticated().and().httpBasic()
