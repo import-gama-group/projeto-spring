@@ -1,6 +1,8 @@
 package com.example.app.service;
 
-import java.sql.Date;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +36,13 @@ public class LancamentoService {
 
 	public void cadastrarLancamento(Lancamento lancamento) {
 
-		//  verificar se o usuario está logado
-		//  buscar id do usuario logado
 		try {
 			
 			Conta conta = contaService.findById(lancamento.getConta().getId());
 			Usuario usuario = usuarioService.findById(conta.getUsuario().getId());
 			PlanoConta planoConta = planoContaService.findById(lancamento.getPlano().getId());
 			
-			Date data = new Date(System.currentTimeMillis()); // TODO tratamento da data
+			Date data = Calendar.getInstance().getTime();
 			
 			Lancamento l = new Lancamento();
 			l.setDate(data);
