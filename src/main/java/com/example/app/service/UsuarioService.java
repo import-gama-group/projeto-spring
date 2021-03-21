@@ -4,7 +4,7 @@ package com.example.app.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.app.model.Conta.TipoConta;
@@ -20,6 +20,9 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
+	PasswordEncoder encoder;
+	
+	@Autowired
 	PlanoContaService planoContaService;
 	
 	@Autowired
@@ -27,6 +30,10 @@ public class UsuarioService {
 		
 	@Transactional
 	public void cadastrarUsuario(Usuario usuario){
+		
+		String senhaCriptografada = encoder.encode(usuario.getPassword());
+		String login=usuario.getLogin();
+		usuario.setPassword(senhaCriptografada);
 				
 		usuarioRepository.save(usuario);
 		
@@ -39,8 +46,6 @@ public class UsuarioService {
 		planoContaService.criarPlanoContaPadrao(usuario, "TRANSFERÊNCIA ENTRE CONTAS", TipoMovimento.TC, true);
 	}
 	
-	
-
 	public Usuario findById(Integer id) {
 		return usuarioRepository.findById(id)
 				.orElseThrow(() -> new BadRequestException("Id não encontrado."));

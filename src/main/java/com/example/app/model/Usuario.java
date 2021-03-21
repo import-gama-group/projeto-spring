@@ -6,8 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 public class Usuario {
@@ -19,16 +19,17 @@ public class Usuario {
 	@NotNull(message = "Name não pode ser null")
 	private String login;
 	
-	
+	@NotEmpty(message = "Name não pode ser vazio")
 	private String password;
 	
 	@NotEmpty(message = "Name não pode ser vazio")
 	private String name;
 	
-	
+
+	@NotEmpty(message = "CPF não pode ser vazio")
 	private String cpf;
 	
-	
+	@NotEmpty(message = "Name não pode ser vazio")
 	private String email;
 	
 	public Usuario() {

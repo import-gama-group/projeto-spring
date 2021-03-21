@@ -46,7 +46,6 @@ public class RestExceptionHandler {
 		err.setTimestamp(Instant.now());
 		err.setStatus(HttpStatus.BAD_REQUEST.value());
 		err.setError("Bad Request Exception, check the Documentation");
-		err.setMessage(exception.getMessage());
 		err.setFields(fields);
 		err.setFieldsMessage(fieldsMessage);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
