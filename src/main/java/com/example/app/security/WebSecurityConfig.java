@@ -60,14 +60,15 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 		//LIBERANDO A API MANUALMENTE
-		//.authorizeRequests().antMatchers("**").permitAll();
+		.authorizeRequests().antMatchers("**").permitAll()
 		//NECESSARIO PARA HABILITAR O JWT, ALEM DAS DEPENDENCIAS pom.xml
-		.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-		.authorizeRequests()
-		.antMatchers(SWAGGER_WHITELIST).permitAll()
-		.antMatchers("/h2-console/**").permitAll()
-		.antMatchers("/login").permitAll()
-		.antMatchers(HttpMethod.POST, "/clientes").permitAll()
+//		.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+//		.authorizeRequests()
+//		.antMatchers(SWAGGER_WHITELIST).permitAll()
+//		.antMatchers("/h2-console/**").permitAll()
+//		.antMatchers("/login").permitAll()
+//		.antMatchers(HttpMethod.GET, "/clientes").permitAll()
+//		.antMatchers(HttpMethod.POST, "/clientes").permitAll()
 		
 		//BASIC AUTH
 		//.anyRequest().authenticated().and().httpBasic()

@@ -18,7 +18,7 @@ import com.example.app.service.ContaService;
 public class ContaController {
 
 	@Autowired
-	ContaService service;
+	ContaService Contaservice;
 	
 	@Autowired
 	private ContaRepository contaRepository;

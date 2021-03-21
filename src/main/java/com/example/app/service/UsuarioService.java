@@ -1,5 +1,7 @@
 package com.example.app.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import com.example.app.model.Conta.TipoConta;
 import com.example.app.model.PlanoConta.TipoMovimento;
 import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
+import com.example.app.utils.exception.BadRequestException;
 
 @Service
 public class UsuarioService {
@@ -36,9 +39,12 @@ public class UsuarioService {
 		planoContaService.criarPlanoContaPadrao(usuario, "TRANSFERÊNCIA ENTRE USUÁRIOS", TipoMovimento.TU, true);
 		planoContaService.criarPlanoContaPadrao(usuario, "TRANSFERÊNCIA ENTRE CONTAS", TipoMovimento.TC, true);
 	}
+	
+	
 
 	public Usuario findById(Integer id) {
-		return usuarioRepository.findById(id).get();
+		return usuarioRepository.findById(id)
+				.orElseThrow(() -> new BadRequestException("Usuario não encontrado."));
 	}
 
 	//public Usuario getByEmail(String email) {
