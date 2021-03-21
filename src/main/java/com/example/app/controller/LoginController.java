@@ -7,12 +7,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app.dto.LoginDTO;
@@ -20,12 +24,16 @@ import com.example.app.dto.Sessao;
 import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
 import com.example.app.security.jwt.JWTConstants;
+import com.example.app.service.LoginService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 @RestController
 @RequestMapping("/login")
 public class LoginController {
+	
+	@Autowired
+	private LoginService service;
 	
 	@Autowired
 	private UsuarioRepository repository;
@@ -62,6 +70,7 @@ public class LoginController {
 
 		return sessao;
 	}
+	
 	//como vc gerenciaria a nivel de banco o role de um usuario
 	private String getJWTToken(Sessao sessao) {
 		String role = "ROLE_ADMIN";
@@ -75,5 +84,11 @@ public class LoginController {
 
 		return token;
 	}
-
+	
+	@PostMapping("/nova-senha")
+	@ResponseBody
+	  public void alterarSenha(@RequestBody Usuario usuario){
+		
+		service.alterarSenha(usuario);
+	  }
 }
