@@ -1,9 +1,15 @@
 package com.example.app.service;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,24 +21,28 @@ import com.example.app.model.PlanoConta.TipoMovimento;
 import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
 import com.example.app.repository.LancamentoRepository;
+import com.example.app.repository.UsuarioRepository;
 
 @Service
 public class LancamentoService {
 	
 	@Autowired
-	LancamentoRepository lancamentoRepository;
+	private LancamentoRepository lancamentoRepository;
 	
 	@Autowired
-	ContaRepository contaRepository;
+	private ContaRepository contaRepository;
 	
 	@Autowired
-	ContaService contaService;
+	private ContaService contaService;
 	
 	@Autowired 
-	PlanoContaService planoContaService;
+	private PlanoContaService planoContaService;
 	
 	@Autowired
-	UsuarioService usuarioService;
+	private UsuarioService usuarioService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	public void cadastrarLancamento(Lancamento lancamento) {
 
@@ -79,4 +89,62 @@ public class LancamentoService {
 			e.printStackTrace(); // TODO verificar a forma correta de imprimir e se o catch está funcionando
 		}
 	}
+	
+	public List<Lancamento> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
+		
+		//Conta contaId = contaService.findById(conta.getId());
+		Optional<Usuario> opp = usuarioRepository.findByLogin(login);
+		Usuario usuario = opp.get();
+		List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
+		Conta contaBanco = contas.get(0);
+		Conta contaCredito = contas.get(1);
+		
+	    DateFormat formatter1 = new SimpleDateFormat("MM-dd-yy");  
+	    Date dataInicial = (Date)formatter1.parse(dataI); 
+	    DateFormat formatter2 = new SimpleDateFormat("MM-dd-yy");  
+	    Date dataFinal = (Date)formatter2.parse(dataF); 
+		
+		Date dataLancamento;
+	//	List<Conta> contas = contaRepository.findAll();
+		List<Lancamento> lancamentos = lancamentoRepository.findAll();
+		//List<Lancamento> lancamentosDentroDoPeriodo = lancamentoRepository.findAll();
+		List<Lancamento> lancamentosContaBanco = new ArrayList<>();
+		List<Lancamento> lancamentosContaCredito = new ArrayList<>();
+		
+		
+		
+		for(Conta conta: contas) {
+			for(Lancamento lancamento: lancamentos) {
+				dataLancamento = lancamento.getDate();
+				if(dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal) && (lancamento.getConta() == conta)) {
+					lancamentosCombinados.add(lancamento);
+				}
+			}
+		//lancamentosCombinados.addAll(lancamentosDentroDoPeriodo);
+		}
+		System.out.println("\n\nTô sendo executado\n\n");
+		System.out.println(lancamentosCombinados.toString() + "\n\n");
+	
+		
+		
+		return lancamentosCombinados;
+		
+	}
+	
+	public void listarLancamentos() {
+		for(Conta conta: contas) {
+			for(Lancamento lancamento: lancamentos) {
+				dataLancamento = lancamento.getDate();
+				if(dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal) && (lancamento.getConta() == conta)) {
+					lancamentosCombinados.add(lancamento);
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
 }

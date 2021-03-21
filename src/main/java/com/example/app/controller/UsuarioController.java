@@ -33,7 +33,6 @@ public class UsuarioController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 		public void cadastrar(@RequestBody Usuario usuario){
-		
 		service.cadastrarUsuario(usuario);
 		
 	}
