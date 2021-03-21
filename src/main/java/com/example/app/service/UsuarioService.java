@@ -40,4 +40,11 @@ public class UsuarioService {
 	public Usuario findById(Integer id) {
 		return usuarioRepository.findById(id).get();
 	}
+
+	//public Usuario getByEmail(String email) {
+		
+		//return usuarioRepository.findByEmail(email);
+	//}
+
+
 }

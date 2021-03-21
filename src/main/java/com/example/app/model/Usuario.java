@@ -14,25 +14,35 @@ public class Usuario {
 	private String password;
 	private String name;
 	private String cpf;
+	private String email;
 	
 	public Usuario() {
-		this(null, null, null, null, null);
+		this(null, null, null, null, null, null);
 	}
 	
 	// Constructor
-	public Usuario(Integer id, String login, String password, String name, String cpf) {
+	public Usuario(Integer id, String login, String password, String name, String cpf, String email) {
 		super();
 		this.id = id;
 		this.login = login;
 		this.password = password;
 		this.name = name;
 		this.cpf = cpf;
+		this.email = email;
 	}
 	
 	// Getters and Setters
 	public Integer getId() {
 		return id;
 	}
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
