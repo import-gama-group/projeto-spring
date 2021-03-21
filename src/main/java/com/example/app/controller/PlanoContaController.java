@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,31 +22,31 @@ import com.example.app.service.PlanoContaService;
 @RestController
 @RequestMapping("/planos")
 public class PlanoContaController {
-	
+
 	@Autowired
 	PlanoContaService service;
-	
+
 	@Autowired
 	private PlanoContaRepository planoContaRepository;
-	
+
 	@GetMapping
-	public List<PlanoConta> listar(){
+	public List<PlanoConta> listar() {
 		return planoContaRepository.findAll();
 	}
-	
-	@GetMapping("/usuario_id/{id}")
-		List<PlanoConta> one(@PathVariable Integer id) {
-	    
-		return planoContaRepository.findByUsuarioId(id);
-	    // TODO .orElseThrow(() -> new EmployeeNotFoundException(id));
+
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<PlanoConta> findById(@PathVariable Integer id) {
+		PlanoConta obj = service.findById(id);
+		return ResponseEntity.ok().body(obj);
+
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void cadastrar(@RequestBody PlanoConta planoConta){
-	
-	service.cadastrarPlanoContaPersonalizado(planoConta);
-	
-}
+	public void cadastrar(@RequestBody PlanoConta planoConta) {
+
+		service.cadastrarPlanoContaPersonalizado(planoConta);
+
+	}
 
 }

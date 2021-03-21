@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app.model.Conta;
+import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
 import com.example.app.service.ContaService;
 
@@ -28,10 +30,16 @@ public class ContaController {
 		return contaRepository.findAll();
 	}
 	
-	@GetMapping("/usuario_id/{id}")
-		List<Conta> one(@PathVariable Integer id) {
-	    
-		return contaRepository.findByUsuarioId(id);
-	    // TODO .orElseThrow(() -> new EmployeeNotFoundException(id));
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Conta> findById(@PathVariable Integer id){
+		Conta obj = Contaservice.findById(id);
+		return ResponseEntity.ok().body(obj);
 	}
+	
+//	@GetMapping("/usuario_id/{id}")
+//		List<Conta> one(@PathVariable Integer id) {
+//	    
+//		return contaRepository.findByUsuarioId(id);
+//	    // TODO .orElseThrow(() -> new EmployeeNotFoundException(id));
+//	}
 }

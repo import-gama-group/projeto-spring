@@ -1,11 +1,7 @@
 package com.example.app;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import com.example.app.TestComponent;
 
 @SpringBootApplication
 public class AppApplication {
@@ -14,6 +10,7 @@ public class AppApplication {
 		SpringApplication.run(AppApplication.class, args);
 		
 	}
+//<<<<<<< HEAD
 //	@Bean
 //    public CommandLineRunner run(TestComponent t) throws Exception {
 //        return args -> {
@@ -21,4 +18,6 @@ public class AppApplication {
 //        };
 //	}
 
+//=======
+//>>>>>>> cd7b3256cb563580ce2883844bda43bf437e9c5b
 }

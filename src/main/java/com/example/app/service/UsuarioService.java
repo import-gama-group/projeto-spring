@@ -1,6 +1,5 @@
 package com.example.app.service;
 
-import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -44,7 +43,7 @@ public class UsuarioService {
 
 	public Usuario findById(Integer id) {
 		return usuarioRepository.findById(id)
-				.orElseThrow(() -> new BadRequestException("Usuario não encontrado."));
+				.orElseThrow(() -> new BadRequestException("Id não encontrado."));
 	}
 
 	//public Usuario getByEmail(String email) {

@@ -2,6 +2,8 @@ package com.example.app.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,7 @@ public class UsuarioController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-		public void cadastrar(@RequestBody Usuario usuario){
+		public void cadastrar(@Valid @RequestBody Usuario usuario){
 		
 		service.cadastrarUsuario(usuario);
 		

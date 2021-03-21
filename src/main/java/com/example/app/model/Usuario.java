@@ -4,16 +4,31 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotEmpty(message = "Name não pode ser vazio")
+	@NotNull(message = "Name não pode ser null")
 	private String login;
+	
+	
 	private String password;
+	
+	@NotEmpty(message = "Name não pode ser vazio")
 	private String name;
+	
+	
 	private String cpf;
+	
+	
 	private String email;
 	
 	public Usuario() {

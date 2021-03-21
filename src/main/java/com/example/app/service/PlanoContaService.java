@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.model.PlanoConta;
 import com.example.app.model.Usuario;
 import com.example.app.repository.PlanoContaRepository;
-
+import com.example.app.utils.exception.BadRequestException;
 import com.example.app.model.PlanoConta.TipoMovimento;
 
 @Service
@@ -46,6 +46,7 @@ public class PlanoContaService {
 
 
 	public PlanoConta findById(Integer id) {
-		return planoContaRepository.findById(id).get();
+		return planoContaRepository.findById(id)
+				.orElseThrow(() -> new BadRequestException("Plano de Conta não encontrado."));
 	}
 }
