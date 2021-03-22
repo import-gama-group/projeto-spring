@@ -10,7 +10,7 @@ public class AppApplication {
 		SpringApplication.run(AppApplication.class, args);
 		
 	}
-//<<<<<<< HEAD
+
 //	@Bean
 //    public CommandLineRunner run(TestComponent t) throws Exception {
 //        return args -> {
@@ -18,6 +18,5 @@ public class AppApplication {
 //        };
 //	}
 
-//=======
-//>>>>>>> cd7b3256cb563580ce2883844bda43bf437e9c5b
+
 }

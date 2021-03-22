@@ -44,7 +44,6 @@ public class UsuarioController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 		public void cadastrar(@Valid @RequestBody Usuario usuario){
-		
 		service.cadastrarUsuario(usuario);
 		
 	}
