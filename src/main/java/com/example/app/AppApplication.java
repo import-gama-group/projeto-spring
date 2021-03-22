@@ -10,4 +10,13 @@ public class AppApplication {
 		SpringApplication.run(AppApplication.class, args);
 		
 	}
+
+//	@Bean
+//    public CommandLineRunner run(TestComponent t) throws Exception {
+//        return args -> {
+//        	t.test();
+//        };
+//	}
+
+
 }
