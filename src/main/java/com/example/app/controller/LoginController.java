@@ -88,10 +88,10 @@ public class LoginController {
 	}
 	
 	@PostMapping("/nova-senha")
-	@ResponseBody
-	  public void solicitarNovaSenha(@RequestBody Usuario usuario){
+	
+	  public @ResponseBody String solicitarNovaSenha(@RequestBody Usuario usuario){
 		
-		service.solicitarNovaSenha(usuario);
+		return service.solicitarNovaSenha(usuario);
 	  }
 	
 	@PostMapping("/altera-senha")

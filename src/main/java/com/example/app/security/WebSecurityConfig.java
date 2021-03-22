@@ -68,7 +68,6 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
 		.antMatchers(SWAGGER_WHITELIST).permitAll()
 		.antMatchers("/h2-console/**").permitAll()
 		.antMatchers("/login").permitAll()
-		.antMatchers(HttpMethod.GET, "/clientes").permitAll()
 		.antMatchers(HttpMethod.POST, "/clientes").permitAll()
 		.antMatchers(HttpMethod.POST, "/login/nova-senha").permitAll()
 		.antMatchers(HttpMethod.POST, "/login/altera-senha").permitAll()

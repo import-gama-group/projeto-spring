@@ -17,11 +17,16 @@ public class LoginService {
 	@Autowired
 	private UsuarioRepository repository;
 	
-	public void solicitarNovaSenha(Usuario usuario) {
+	public String solicitarNovaSenha(Usuario usuario) {
 		Optional<Usuario> opp = repository.findByEmail(usuario.getEmail());
 		Usuario usuario1 = opp.get();
 		usuario1.setPassword(usuario.getLogin() + "123");
 		repository.save(usuario1);
+		
+		String resultado = "{ \"novaSenha\": \""+usuario1.getPassword()+"\" }";
+				
+		return resultado;
+		
 	}
 	
 	public void alterarSenha(String login, String novaSenha) {
