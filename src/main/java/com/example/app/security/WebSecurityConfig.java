@@ -69,6 +69,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
 		.antMatchers("/login").permitAll()
 		.antMatchers(HttpMethod.POST, "/clientes").permitAll()
 		.antMatchers(HttpMethod.POST, "/login/nova-senha").permitAll()
+		.antMatchers(HttpMethod.POST, "/login/solicitar-nova-senha").permitAll()
 		
 		//BASIC AUTH
 		//.anyRequest().authenticated().and().httpBasic()
