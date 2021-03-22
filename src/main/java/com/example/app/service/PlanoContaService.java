@@ -1,5 +1,7 @@
 package com.example.app.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +49,23 @@ public class PlanoContaService {
 	public PlanoConta findById(Integer id) {
 		return planoContaRepository.findById(id)
 				.orElseThrow(() -> new BadRequestException("Plano de Conta não encontrado."));
+	}
+
+
+	public PlanoConta alterarNomePlanoConta(Integer id, String novoNome) {
+
+		Optional<PlanoConta> opp = planoContaRepository.findById(id);
+		PlanoConta plano = opp.get();
+
+		try {
+			if (plano.getPadrao() == false) {
+				plano.setNome(novoNome);
+				planoContaRepository.save(plano);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return plano;
 	}
 }

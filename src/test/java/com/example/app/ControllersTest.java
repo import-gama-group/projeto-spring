@@ -37,9 +37,6 @@ public class ControllersTest {
 	@Autowired
 	MockMvc mockMvc;
 	
-	@Autowired
-	private ObjectMapper objectMapper;
-	
 	@Test
 	public void LancamentosTestGetAll() throws Exception {
 		mockMvc.perform(get("/lancamentos"))

@@ -60,7 +60,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 		//LIBERANDO A API MANUALMENTE
-		//.authorizeRequests().antMatchers("**").permitAll()
+//		.authorizeRequests().antMatchers("**").permitAll();
 		//NECESSARIO PARA HABILITAR O JWT, ALEM DAS DEPENDENCIAS pom.xml
 
 		.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
