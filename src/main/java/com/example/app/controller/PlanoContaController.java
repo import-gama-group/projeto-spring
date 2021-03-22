@@ -62,4 +62,11 @@ public class PlanoContaController {
 		return service.alterarNomePlanoConta(id, novoNome);
 		
 	} 
+	
+	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	public void deletarPlanoConta(@PathVariable("id") Integer id) {
+	    
+		service.deletarPlanoConta(id);
+		
+	}
 }
