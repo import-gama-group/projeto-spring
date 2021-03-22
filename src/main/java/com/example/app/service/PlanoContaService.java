@@ -28,7 +28,6 @@ public class PlanoContaService {
 	
 	
 	public void cadastrarPlanoContaPersonalizado(PlanoConta planoConta) {
-		// TODO verificar se o usuario está logado
 		// TODO mensagem de erro se o usuário tentar cadastrar um tipo transferência
 		
 		if (!planoConta.getTipo().equals(TipoMovimento.D)) {

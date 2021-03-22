@@ -1,7 +1,6 @@
 package com.example.app.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app.model.Conta;
-import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
 import com.example.app.service.ContaService;
 
@@ -36,10 +34,8 @@ public class ContaController {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-//	@GetMapping("/usuario_id/{id}")
-//		List<Conta> one(@PathVariable Integer id) {
-//	    
-//		return contaRepository.findByUsuarioId(id);
-//	    // TODO .orElseThrow(() -> new EmployeeNotFoundException(id));
-//	}
+	@GetMapping("/usuario/{id}")
+	List<Conta> one(@PathVariable Integer id) {	    
+		return contaRepository.findByUsuarioId(id);
+	}
 }

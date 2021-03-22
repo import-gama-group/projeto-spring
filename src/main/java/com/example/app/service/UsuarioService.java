@@ -32,7 +32,7 @@ public class UsuarioService {
 	public void cadastrarUsuario(Usuario usuario){
 		
 		String senhaCriptografada = encoder.encode(usuario.getPassword());
-		String login=usuario.getLogin();
+		
 		usuario.setPassword(senhaCriptografada);
 				
 		usuarioRepository.save(usuario);
@@ -50,11 +50,5 @@ public class UsuarioService {
 		return usuarioRepository.findById(id)
 				.orElseThrow(() -> new BadRequestException("Id não encontrado."));
 	}
-
-	//public Usuario getByEmail(String email) {
-		
-		//return usuarioRepository.findByEmail(email);
-	//}
-
 
 }
