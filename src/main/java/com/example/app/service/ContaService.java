@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.model.Conta;
 import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
+import com.example.app.utils.exception.BadRequestException;
 import com.example.app.model.Conta.TipoConta;
 
 @Service
@@ -53,7 +54,9 @@ public class ContaService {
 	}
 	
 	public Conta findById(Integer id) {
-	    return contaRepository.findById(id).get();
+	    return contaRepository.findById(id)
+	    		.orElseThrow(() -> new BadRequestException("Conta não encontrado."))
+	    		;
 	}
 	
 	//TODO criar metodo para gerar numero de conta randomico e não repetido
