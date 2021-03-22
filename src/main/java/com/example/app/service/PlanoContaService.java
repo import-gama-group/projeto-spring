@@ -68,4 +68,20 @@ public class PlanoContaService {
 		
 		return plano;
 	}
+
+
+	public void deletarPlanoConta(Integer id) {
+		
+		Optional<PlanoConta> opp = planoContaRepository.findById(id);
+	    PlanoConta plano = opp.get();
+	    
+	    try {
+			if (plano.getPadrao() == false) {
+				planoContaRepository.delete(plano);	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}
+	
 }
