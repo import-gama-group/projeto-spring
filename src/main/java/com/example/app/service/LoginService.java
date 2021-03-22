@@ -29,11 +29,19 @@ public class LoginService {
 		
 	}
 	
-	public void alterarSenha(String login, String novaSenha) {
+	public void alterarSenha(String login, String senhaTemporaria, String novaSenha) {
+		
 		Optional<Usuario> opp = repository.findByLogin(login);
 		Usuario usuario = opp.get();
-		usuario.setPassword(novaSenha);
-		repository.save(usuario);
+
+		try { 
+			if (usuario.getLogin() == login && usuario.getPassword() == senhaTemporaria ) {
+				usuario.setPassword(novaSenha);
+				repository.save(usuario);
+			}
+		} catch (Exception e) {
+			
+		}
 	}
 }
 
