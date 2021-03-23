@@ -24,7 +24,6 @@ public class Usuario {
 	@NotEmpty(message = "Name não pode ser vazio")
 	private String nome;
 	
-
 	@NotEmpty(message = "CPF não pode ser vazio")
 	private String cpf;
 	
@@ -70,20 +69,20 @@ public class Usuario {
 		this.login = login;
 	}
 
-	public String getPassword() {
+	public String getSenha() {
 		return senha;
 	}
 
-	public void setPassword(String password) {
-		this.senha = password;
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getName() {
 		return nome;
 	}
 
-	public void setName(String name) {
-		this.nome = name;
+	public void setName(String nome) {
+		this.nome = nome;
 	}
 
 	public String getCpf() {

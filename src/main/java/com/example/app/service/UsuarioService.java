@@ -31,9 +31,9 @@ public class UsuarioService {
 	@Transactional
 	public void cadastrarUsuario(Usuario usuario){
 		
-		String senhaCriptografada = encoder.encode(usuario.getPassword());
+		String senhaCriptografada = encoder.encode(usuario.getSenha());
 		
-		usuario.setPassword(senhaCriptografada);
+		usuario.setSenha(senhaCriptografada);
 				
 		usuarioRepository.save(usuario);
 		

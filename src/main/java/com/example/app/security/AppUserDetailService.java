@@ -1,7 +1,6 @@
 package com.example.app.security;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class AppUserDetailService implements UserDetailsService {
         }
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getSenha(), authorities);
        
     }
     

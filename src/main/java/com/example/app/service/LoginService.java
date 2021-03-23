@@ -17,10 +17,11 @@ public class LoginService {
 	public String solicitarNovaSenha(Usuario usuario) {
 		Optional<Usuario> opp = repository.findByEmail(usuario.getEmail());
 		Usuario usuario1 = opp.get();
-		usuario1.setPassword(usuario.getLogin() + "123");
+		System.out.println(usuario1);
+		usuario1.setSenha(usuario.getLogin() + "123");
 		repository.save(usuario1);
 		
-		String resultado = "{ \"novaSenha\": \""+usuario1.getPassword()+"\" }";
+		String resultado = "{ \"senhaTemporaria\": \""+usuario1.getSenha()+"\" }";
 				
 		return resultado;
 		
@@ -31,13 +32,13 @@ public class LoginService {
 		Optional<Usuario> opp = repository.findByLogin(login);
 		Usuario usuario = opp.get();
 
-		try { 
-			if (usuario.getLogin() == login && usuario.getPassword() == senhaTemporaria ) {
-				usuario.setPassword(novaSenha);
+		//try { 
+	//		if (usuario.getLogin() == login && usuario.getSenha() == senhaTemporaria ) {
+				usuario.setSenha(novaSenha);
 				repository.save(usuario);
-			}
-		} catch (Exception e) {
+		//	}
+	//	} catch (Exception e) {
 		
-		}
+	//	}
 	}
 }
