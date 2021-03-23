@@ -44,17 +44,17 @@ public class LoginController {
 	private PasswordEncoder encoder;
 	
 	@PostMapping
-	public Sessao logar(@Valid @RequestBody LoginDTO login) throws BadRequestException{
+	public Sessao logar(@Valid @RequestBody LoginDTO usuario) throws BadRequestException{
 
 
-		Optional<Usuario> optuser = repository.findByLogin(login.getUsuario());
-		System.out.println(repository.findByLogin(login.getUsuario()));
-		Usuario usuario = optuser.get();
+		Optional<Usuario> optuser = repository.findByLogin(usuario.getLogin());
+		System.out.println(repository.findByLogin(usuario.getLogin()));
+		Usuario usuario1 = optuser.get();
 
-		boolean senhaOk = encoder.matches(login.getSenha(),usuario.getSenha());
+		boolean senhaOk = encoder.matches(usuario.getSenha(),usuario1.getSenha());
 
 		if (!senhaOk) {
-			throw new BadRequestException("Senha inválida para o login: " + login.getUsuario());
+			throw new BadRequestException("Senha inválida para o login: " + usuario.getLogin());
 		}
 
 		
@@ -63,7 +63,7 @@ public class LoginController {
 		sessao.setDataInicio(new Date(System.currentTimeMillis()));
 		sessao.setDataFim(new Date(System.currentTimeMillis() + tempoToken));
 		
-		sessao.setLogin(usuario.getLogin());
+		sessao.setLogin(usuario1.getLogin());
 
 		sessao.setToken(JWTConstants.PREFIX + getJWTToken(sessao));
 

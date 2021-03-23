@@ -23,7 +23,6 @@ public class Usuario {
 
 	@NotEmpty(message = "Nome não pode ser vazio/null")
 	private String nome;
-	
 
 	@NotEmpty(message = "CPF não pode ser vazio/null")
 	private String cpf;
@@ -82,7 +81,7 @@ public class Usuario {
 		return nome;
 	}
 
-	public void setName(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 

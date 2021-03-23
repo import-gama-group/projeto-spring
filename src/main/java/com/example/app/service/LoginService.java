@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
-import com.example.app.utils.exception.BadRequestException;
 
 @Service
 public class LoginService {
@@ -37,14 +36,14 @@ public class LoginService {
 		Optional<Usuario> opp = repository.findByLogin(login);
 		Usuario usuario = opp.get();
 
-		//try { 
-	//		if (usuario.getLogin() == login && usuario.getSenha() == senhaTemporaria ) {
+		try { 
+			if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senhaTemporaria) ) {
 				usuario.setSenha(novaSenha);
 				repository.save(usuario);
-		//	}
-	//	} catch (Exception e) {
+			}
+		} catch (Exception e) {
 		
-	//	}
+		}
 
 	}
 }
