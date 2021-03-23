@@ -84,7 +84,6 @@ public class Usuario {
 
 	public void setName(String nome) {
 		this.nome = nome;
- dev
 	}
 
 	public String getCpf() {
