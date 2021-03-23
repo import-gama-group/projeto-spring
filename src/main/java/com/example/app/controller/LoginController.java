@@ -44,7 +44,7 @@ public class LoginController {
 	private PasswordEncoder encoder;
 	
 	@PostMapping
-	public Sessao logar(@Valid @RequestBody LoginDTO login){
+	public Sessao logar(@Valid @RequestBody LoginDTO login) throws BadRequestException{
 
 
 		Optional<Usuario> optuser = repository.findByLogin(login.getUsuario());

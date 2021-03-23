@@ -31,8 +31,8 @@ public class UsuarioService {
 	@Transactional
 	public void cadastrarUsuario(Usuario usuario) throws BadRequestException{
 
-		if(usuarioRepository.existsByCpf(usuario.getCpf()))
-			throw new BadRequestException("CPF já utilizado!");
+		if(usuarioRepository.existsByLogin(usuario.getLogin()))
+			throw new BadRequestException("Login já existente!");
 		
 		String senhaCriptografada = encoder.encode(usuario.getSenha());
 

@@ -9,20 +9,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Lancamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private Date date;
+	
 	@ManyToOne
 	private PlanoConta plano;
+	
 	@ManyToOne
 	private Conta conta;
+	
 	private String descricao;
+	
 	private String login;
+	
 	private Double valor;
+	
 	@ManyToOne
 	private Conta contaDestino;
 	

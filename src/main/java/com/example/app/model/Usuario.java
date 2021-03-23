@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -13,21 +14,20 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotEmpty(message = "Login não pode ser vazio")
+	@Size(min = 3, max = 20, message = "O Login deve ter entre 3 e 20 caracteres")
+	@NotEmpty(message = "Login não pode ser vazio/null")
 	private String login;
 
-
-	@NotEmpty(message = "Senha não pode ser vazio")
+	@NotEmpty(message = "Senha não pode ser vazio/null")
 	private String senha;
 
-	
-	@NotEmpty(message = "Name não pode ser vazio")
+	@NotEmpty(message = "Nome não pode ser vazio/null")
 	private String nome;
 	
-	@NotEmpty(message = "CPF não pode ser vazio")
+	@NotEmpty(message = "CPF não pode ser vazio/null")
 	private String cpf;
 	
-	@NotEmpty(message = "Name não pode ser vazio")
+	@NotEmpty(message = "Email não pode ser vazio/null")
 	private String email;
 	
 	public Usuario() {
@@ -77,11 +77,11 @@ public class Usuario {
 		this.senha = password;
 	}
 
-	public String getName() {
+	public String getNome() {
 		return nome;
 	}
 
-	public void setName(String name) {
+	public void setNome(String name) {
 		this.nome = name;
 	}
 
@@ -92,5 +92,6 @@ public class Usuario {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 	
 }
