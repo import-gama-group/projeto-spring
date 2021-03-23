@@ -30,7 +30,7 @@ public class ContaService {
 	public void debitar(Conta conta, Double valor) {
 
 		if (conta.getSaldo() < valor) {
-			throw new IllegalArgumentException("Saldo insuficiente");
+			throw new BadRequestException("Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}
@@ -43,7 +43,7 @@ public class ContaService {
 	public void transferir(Conta conta, Double valor, Conta contaDestino) {
 		
 		if (conta.getSaldo() < valor) {
-			throw new IllegalArgumentException("Saldo insuficiente");
+			throw new BadRequestException("Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}

@@ -12,7 +12,8 @@ import com.example.app.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 	public Optional <Usuario> findByLogin(String login);
-	public boolean existsByLogin(String login);
+	boolean existsByLogin(String login);
+	boolean existsByCpf(String cpf);
 	public Optional <Usuario> findByEmail(String email);
 	
 }

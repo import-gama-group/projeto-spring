@@ -21,6 +21,7 @@ import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
 import com.example.app.repository.LancamentoRepository;
 import com.example.app.repository.UsuarioRepository;
+import com.example.app.utils.exception.BadRequestException;
 
 @Service
 public class LancamentoService {
@@ -86,13 +87,15 @@ public class LancamentoService {
 
 			lancamentoRepository.save(l);
 
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace(); // TODO verificar a forma correta de imprimir e se o catch está funcionando
+		} catch (BadRequestException e) {
+			 
 		}
 	}
 
 	public List<Object> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
 
+		
+		
 		// Conta contaId = contaService.findById(conta.getId());
 		Optional<Usuario> opp = usuarioRepository.findByLogin(login);
 		Usuario usuario = opp.get();
