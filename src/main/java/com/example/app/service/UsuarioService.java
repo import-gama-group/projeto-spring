@@ -57,10 +57,4 @@ public class UsuarioService {
 		return usuarioRepository.findById(id).orElseThrow(() -> new BadRequestException("Id não encontrado."));
 	}
 
-
-	// public Usuario getByEmail(String email) {
-
-	// return usuarioRepository.findByEmail(email);
-	// }
-
 }

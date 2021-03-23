@@ -24,6 +24,7 @@ public class Usuario {
 	@NotEmpty(message = "Nome não pode ser vazio/null")
 	private String nome;
 	
+
 	@NotEmpty(message = "CPF não pode ser vazio/null")
 	private String cpf;
 	
@@ -73,16 +74,17 @@ public class Usuario {
 		return senha;
 	}
 
-	public void setSenha(String password) {
-		this.senha = password;
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String name) {
-		this.nome = name;
+	public void setName(String nome) {
+		this.nome = nome;
+ dev
 	}
 
 	public String getCpf() {
