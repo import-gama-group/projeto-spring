@@ -1,6 +1,4 @@
-package com.example.app.utils.exception;
-
-import com.example.app.utils.exception.config.ExceptionsDetails;
+package com.example.app.utils.exception.config;
 
 public class ValidationExceptionDetails extends ExceptionsDetails {
 	

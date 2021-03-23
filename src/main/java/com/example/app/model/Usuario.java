@@ -5,8 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 
 @Entity
@@ -15,17 +13,15 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotEmpty(message = "Name não pode ser vazio")
-	@NotNull(message = "Name não pode ser null")
+	@NotEmpty(message = "Login não pode ser vazio")
 	private String login;
 	
-	@NotEmpty(message = "Name não pode ser vazio")
+	@NotEmpty(message = "Password não pode ser vazio")
 	private String password;
 	
 	@NotEmpty(message = "Name não pode ser vazio")
 	private String name;
 	
-
 	@NotEmpty(message = "CPF não pode ser vazio")
 	private String cpf;
 	
@@ -33,7 +29,7 @@ public class Usuario {
 	private String email;
 	
 	public Usuario() {
-		this(null, null, null, null, null, null);
+		
 	}
 	
 	// Constructor

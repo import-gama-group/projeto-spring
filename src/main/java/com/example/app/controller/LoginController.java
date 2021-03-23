@@ -1,20 +1,18 @@
 package com.example.app.controller;
 
 import java.util.Date;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +25,7 @@ import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
 import com.example.app.security.jwt.JWTConstants;
 import com.example.app.service.LoginService;
+import com.example.app.utils.exception.BadRequestException;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,11 +43,8 @@ public class LoginController {
 	private PasswordEncoder encoder;
 	
 	@PostMapping
-	public Sessao logar(@RequestBody LoginDTO login) throws Exception {
+	public Sessao logar(@Valid @RequestBody LoginDTO login){
 
-		if (login == null || login.getUsuario().isEmpty() || login.getSenha().isEmpty()) {
-			throw new RuntimeException("Login e senha são requeridos");
-		}
 
 		Optional<Usuario> optuser = repository.findByLogin(login.getUsuario());
 		System.out.println(repository.findByLogin(login.getUsuario()));
@@ -57,7 +53,7 @@ public class LoginController {
 		boolean senhaOk = encoder.matches(login.getSenha(),usuario.getPassword());
 
 		if (!senhaOk) {
-			//throw new RuntimeException("Senha inválida para o login: " + login.getUsuario());
+			throw new BadRequestException("Senha inválida para o login: " + login.getUsuario());
 		}
 
 		

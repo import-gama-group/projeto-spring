@@ -13,9 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.example.app.utils.exception.BadRequesExceptionsDetails;
 import com.example.app.utils.exception.BadRequestException;
-import com.example.app.utils.exception.ValidationExceptionDetails;
 
 
 @ControllerAdvice
@@ -33,7 +31,7 @@ public class RestExceptionHandler {
 			
 	}
 	
-	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<ValidationExceptionDetails> handlerMethodArgumentNotValidException(
 			MethodArgumentNotValidException exception){
 		List<FieldError> fieldErros = exception.getBindingResult().getFieldErrors();
