@@ -34,8 +34,5 @@ public class ContaController {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@GetMapping("/usuario/{id}")
-	List<Conta> one(@PathVariable Integer id) {	    
-		return contaRepository.findByUsuarioId(id);
-	}
+	
 }

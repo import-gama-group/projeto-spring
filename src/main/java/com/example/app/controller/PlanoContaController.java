@@ -40,19 +40,11 @@ public class PlanoContaController {
 		return planoContaRepository.findByUsuarioId(id);
 	}
 
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<PlanoConta> findById(@PathVariable Integer id) {
-		PlanoConta obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
-
-	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public void cadastrar(@RequestBody PlanoConta planoConta) {
-
 		service.cadastrarPlanoContaPersonalizado(planoConta);
-
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT) 

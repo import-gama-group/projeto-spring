@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.app.model.PlanoConta;
 import com.example.app.model.Usuario;
@@ -17,6 +18,7 @@ public class PlanoContaService {
 	@Autowired
 	PlanoContaRepository planoContaRepository;
 	
+	@Transactional
 	public void criarPlanoContaPadrao(Usuario usuario, String nome, TipoMovimento tipo, Boolean padrao) {
 		
 		PlanoConta plano = new PlanoConta();
@@ -32,17 +34,18 @@ public class PlanoContaService {
 	public void cadastrarPlanoContaPersonalizado(PlanoConta planoConta) {
 		// TODO mensagem de erro se o usuário tentar cadastrar um tipo transferência
 		
-		if (!planoConta.getTipo().equals(TipoMovimento.D)) {
-			// TODO mensagem de erro (Tipo de Movimento inválido)
-		} else {
 		
-			PlanoConta plano = new PlanoConta();
-			plano.setNome(planoConta.getNome());
-			plano.setUsuario(planoConta.getUsuario());
-			plano.setTipo(planoConta.getTipo());
+			if (!planoConta.getTipo().equals(TipoMovimento.D)){
+				} else {
+				PlanoConta plano = new PlanoConta();
+				plano.setNome(planoConta.getNome());
+				plano.setUsuario(planoConta.getUsuario());
+				plano.setTipo(planoConta.getTipo());
+				
+				planoContaRepository.save(plano);
+			}
+			throw new BadRequestException("Erro ao cadastrar plano de contas");
 			
-			planoContaRepository.save(plano);
-		}
 	}
 
 

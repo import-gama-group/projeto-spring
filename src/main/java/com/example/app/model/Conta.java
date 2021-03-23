@@ -8,15 +8,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+
 @Entity
 public class Conta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne
+
 	private Usuario usuario;
+	
 	private Integer numero;
+	
 	private Double saldo;
+	
 	@Enumerated(EnumType.STRING)
 	private TipoConta tipo;	
 	

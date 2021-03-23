@@ -30,8 +30,9 @@ public class UsuarioController {
 	private UsuarioRepository usuarioRepository;
 	
 	@GetMapping
-	public List<Usuario> listar(){
-		return usuarioRepository.findAll();
+	public ResponseEntity<List<Usuario>> findAll(){
+		List<Usuario> lista = usuarioRepository.findAll();
+		return ResponseEntity.ok().body(lista);
 	}
 	
 	@GetMapping(value = "/{id}")

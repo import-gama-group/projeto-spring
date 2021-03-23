@@ -12,10 +12,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.example.app.utils.exception.BadRequesExceptionsDetails;
 import com.example.app.utils.exception.BadRequestException;
-import com.example.app.utils.exception.ValidationExceptionDetails;
 
 
 @ControllerAdvice
@@ -44,11 +43,11 @@ public class RestExceptionHandler {
 		
 		ValidationExceptionDetails err = new ValidationExceptionDetails();
 		err.setTimestamp(Instant.now());
-		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setStatus(HttpStatus.NOT_FOUND.value());
 		err.setError("Bad Request Exception, check the Documentation");
 		err.setFields(fields);
 		err.setFieldsMessage(fieldsMessage);
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 			
 	}
 	
