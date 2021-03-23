@@ -31,7 +31,7 @@ public class RestExceptionHandler {
 			
 	}
 	
-	@ExceptionHandler(BadRequestException.class)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ValidationExceptionDetails> handlerMethodArgumentNotValidException(
 			MethodArgumentNotValidException exception){
 		List<FieldError> fieldErros = exception.getBindingResult().getFieldErrors();

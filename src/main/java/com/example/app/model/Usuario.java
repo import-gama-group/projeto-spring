@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
 
-
 @Entity
 public class Usuario {
 	@Id
@@ -17,9 +16,11 @@ public class Usuario {
 	@NotEmpty(message = "Login não pode ser vazio")
 	private String login;
 
+
 	@NotEmpty(message = "Senha não pode ser vazio")
 	private String senha;
 
+	
 	@NotEmpty(message = "Name não pode ser vazio")
 	private String nome;
 	
