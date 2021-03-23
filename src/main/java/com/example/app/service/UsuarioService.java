@@ -34,11 +34,11 @@ public class UsuarioService {
 		if(usuarioRepository.existsByCpf(usuario.getCpf()))
 			throw new BadRequestException("CPF já utilizado!");
 		
-		String senhaCriptografada = encoder.encode(usuario.getPassword());
+		String senhaCriptografada = encoder.encode(usuario.getSenha());
 
 		String login = usuario.getLogin();
 
-		usuario.setPassword(senhaCriptografada);
+		usuario.setSenha(senhaCriptografada);
 
 		usuarioRepository.save(usuario);
 

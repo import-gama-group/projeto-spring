@@ -69,11 +69,11 @@ public class Usuario {
 		this.login = login;
 	}
 
-	public String getPassword() {
+	public String getSenha() {
 		return senha;
 	}
 
-	public void setPassword(String password) {
+	public void setSenha(String password) {
 		this.senha = password;
 	}
 

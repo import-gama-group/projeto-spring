@@ -51,7 +51,7 @@ public class LoginController {
 		System.out.println(repository.findByLogin(login.getUsuario()));
 		Usuario usuario = optuser.get();
 
-		boolean senhaOk = encoder.matches(login.getSenha(),usuario.getPassword());
+		boolean senhaOk = encoder.matches(login.getSenha(),usuario.getSenha());
 
 		if (!senhaOk) {
 			throw new BadRequestException("Senha inválida para o login: " + login.getUsuario());
