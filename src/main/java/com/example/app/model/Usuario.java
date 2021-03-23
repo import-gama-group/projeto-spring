@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
 
+
 @Entity
 public class Usuario {
 	@Id
@@ -15,12 +16,12 @@ public class Usuario {
 	
 	@NotEmpty(message = "Login não pode ser vazio")
 	private String login;
-	
-	@NotEmpty(message = "Password não pode ser vazio")
-	private String password;
-	
+
+	@NotEmpty(message = "Senha não pode ser vazio")
+	private String senha;
+
 	@NotEmpty(message = "Name não pode ser vazio")
-	private String name;
+	private String nome;
 	
 	@NotEmpty(message = "CPF não pode ser vazio")
 	private String cpf;
@@ -33,12 +34,12 @@ public class Usuario {
 	}
 	
 	// Constructor
-	public Usuario(Integer id, String login, String password, String name, String cpf, String email) {
+	public Usuario(Integer id, String login, String senha, String nome, String cpf, String email) {
 		super();
 		this.id = id;
 		this.login = login;
-		this.password = password;
-		this.name = name;
+		this.senha = senha;
+		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 	}
@@ -68,19 +69,19 @@ public class Usuario {
 	}
 
 	public String getPassword() {
-		return password;
+		return senha;
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.senha = password;
 	}
 
 	public String getName() {
-		return name;
+		return nome;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.nome = name;
 	}
 
 	public String getCpf() {

@@ -11,12 +11,4 @@ public class AppApplication {
 		
 	}
 
-//	@Bean
-//    public CommandLineRunner run(TestComponent t) throws Exception {
-//        return args -> {
-//        	t.test();
-//        };
-//	}
-
-
 }

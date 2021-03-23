@@ -1,5 +1,7 @@
 package com.example.app.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +32,6 @@ public class PlanoContaService {
 	
 	
 	public void cadastrarPlanoContaPersonalizado(PlanoConta planoConta) {
-		// TODO verificar se o usuario está logado
 		// TODO mensagem de erro se o usuário tentar cadastrar um tipo transferência
 		
 		
@@ -52,4 +53,38 @@ public class PlanoContaService {
 		return planoContaRepository.findById(id)
 				.orElseThrow(() -> new BadRequestException("Plano de Conta não encontrado."));
 	}
+
+
+	public PlanoConta alterarNomePlanoConta(Integer id, String novoNome) {
+
+		Optional<PlanoConta> opp = planoContaRepository.findById(id);
+		PlanoConta plano = opp.get();
+
+		try {
+			if (plano.getPadrao() == false) {
+				plano.setNome(novoNome);
+				planoContaRepository.save(plano);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return plano;
+	}
+
+
+	public void deletarPlanoConta(Integer id) {
+		
+		Optional<PlanoConta> opp = planoContaRepository.findById(id);
+	    PlanoConta plano = opp.get();
+	    
+	    try {
+			if (plano.getPadrao() == false) {
+				planoContaRepository.delete(plano);	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}
+	
 }

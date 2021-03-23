@@ -8,12 +8,16 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -82,9 +86,17 @@ public class LoginController {
 	}
 	
 	@PostMapping("/nova-senha")
-	@ResponseBody
-	  public void alterarSenha(@RequestBody Usuario usuario){
+	
+	  public @ResponseBody String solicitarNovaSenha(@RequestBody Usuario usuario){
 		
-		service.alterarSenha(usuario);
+		return service.solicitarNovaSenha(usuario);
 	  }
+	
+	@PostMapping("/altera-senha")
+	@ResponseBody
+	  public void alterarSenha(@RequestParam String login, @RequestParam String senhaTemporaria, @RequestParam String novaSenha ){
+		
+		service.alterarSenha(login, senhaTemporaria, novaSenha);
+	  }
+	
 }
