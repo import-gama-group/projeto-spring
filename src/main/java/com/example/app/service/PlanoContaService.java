@@ -33,8 +33,6 @@ public class PlanoContaService {
 	
 	public void cadastrarPlanoContaPersonalizado(PlanoConta planoConta) {
 		
-		System.out.println(planoConta.getTipo().equals(TipoMovimento.D));
-		
 			try {
 				if (planoConta.getTipo().equals(TipoMovimento.D)){
 					
@@ -64,14 +62,18 @@ public class PlanoContaService {
 
 		Optional<PlanoConta> opp = planoContaRepository.findById(id);
 		PlanoConta plano = opp.get();
-
 		
-			if (plano.getPadrao() == false) {
-				plano.setNome(novoNome);
-				planoContaRepository.save(plano);
-				throw new DefaultErrorException("Não foi possível alterar o plano de conta");
+			try {
+				if (plano.getPadrao() == false) {
+					plano.setNome(novoNome);
+					planoContaRepository.save(plano);	
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
+			// throw new DefaultErrorException("Não foi possível alterar o plano de conta");
 		
 		return plano;
 	}
@@ -82,12 +84,16 @@ public class PlanoContaService {
 		Optional<PlanoConta> opp = planoContaRepository.findById(id);
 	    PlanoConta plano = opp.get();
 	    
-	    
-			if (plano.getPadrao() == false) {
-				planoContaRepository.delete(plano);	
-				throw new DefaultErrorException("Não foi possível deletar plano de contas.");
+			try {
+				if (plano.getPadrao() == false) {
+					planoContaRepository.delete(plano);	
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
+			//throw new DefaultErrorException("Não foi possível deletar plano de contas.");
 			
 	}
 	
