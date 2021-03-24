@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,10 +111,10 @@ public class LancamentoService {
 
 		List<Lancamento> lancamentos = lancamentoRepository.findAll();
 
-		List<Lancamento> lancamentosContaBanco = listarLancamentos(lancamentos, contaBanco, dataInicial, dataFinal);
-		List<Lancamento> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
+		List<Object> lancamentosContaBanco = listarLancamentos(lancamentos, contaBanco, dataInicial, dataFinal);
+		List<Object> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
 
-		Map<String, Object> listafinal = new HashMap<>();
+		Map<String, Object> listafinal = new LinkedHashMap<>();
 		listafinal.put("contaDebito", contaBanco);
 		listafinal.put("contaCredito", contaCredito);
 		listafinal.put("lancamentosContaBanco", lancamentosContaBanco);
@@ -122,22 +124,32 @@ public class LancamentoService {
 
 	}
 
-	public List<Lancamento> listarLancamentos(List<Lancamento> lancamentos, Conta conta, Date dataInicial,
+	public List<Object> listarLancamentos(List<Lancamento> lancamentos, Conta conta, Date dataInicial,
 			Date dataFinal) {
 
-		List<Lancamento> lancamentosConsolidados = new ArrayList<>();
-
+		List<Object> listaTeste= new ArrayList<Object>();
+		
 		for (Lancamento lancamento : lancamentos) {
 			Date dataLancamento = lancamento.getDate();
 			if (lancamento.getConta().getId() == conta.getId()
 					&& (dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal))) {
-
-				lancamentosConsolidados.add(lancamento);
+				
+				Map<String, Object> lancamentosConsolidados = new LinkedHashMap<>();		
+				
+				lancamentosConsolidados.put("id", lancamento.getId());
+				lancamentosConsolidados.put("data", lancamento.getDate());
+				lancamentosConsolidados.put("valor", lancamento.getValor());
+				lancamentosConsolidados.put("conta", lancamento.getConta().getId());
+				lancamentosConsolidados.put("descrição", lancamento.getDescricao());
+				lancamentosConsolidados.put("plano", lancamento.getPlano().getId());
+				lancamentosConsolidados.put("tipo", lancamento.getPlano().getTipo());
+				
+				listaTeste.add(lancamentosConsolidados);
 
 			}
 
 		}
-		return lancamentosConsolidados;
+		return listaTeste;
 
 	}
 
