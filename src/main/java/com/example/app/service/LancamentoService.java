@@ -113,7 +113,7 @@ public class LancamentoService {
 		List<Lancamento> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
 
 		Map<String, Object> listafinal = new HashMap<>();
-		listafinal.put("contaBanco", contaBanco);
+		listafinal.put("contaDebito", contaBanco);
 		listafinal.put("contaCredito", contaCredito);
 		listafinal.put("lancamentosContaBanco", lancamentosContaBanco);
 		listafinal.put("lancamentosContaCredito", lancamentosContaCredito);
