@@ -32,22 +32,27 @@ public class PlanoContaService {
 	
 	
 	public void cadastrarPlanoContaPersonalizado(PlanoConta planoConta) {
-		// TODO mensagem de erro se o usuário tentar cadastrar um tipo transferência
 		
+		System.out.println(planoConta.getTipo().equals(TipoMovimento.D));
 		
-			if (!planoConta.getTipo().equals(TipoMovimento.D)){
-				} else {
-				PlanoConta plano = new PlanoConta();
-				plano.setNome(planoConta.getNome());
-				plano.setUsuario(planoConta.getUsuario());
-				plano.setTipo(planoConta.getTipo());
-				
-				planoContaRepository.save(plano);
+			try {
+				if (planoConta.getTipo().equals(TipoMovimento.D)){
+					
+					PlanoConta plano = new PlanoConta();
+					plano.setNome(planoConta.getNome());
+					plano.setUsuario(planoConta.getUsuario());
+					plano.setTipo(planoConta.getTipo());
+					
+					planoContaRepository.save(plano);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			throw new DefaultErrorException("Erro ao cadastrar plano de contas");
+			
+			//throw new DefaultErrorException("Erro ao cadastrar plano de contas");
 			
 	}
-
 
 	public PlanoConta findById(Integer id) {
 		return planoContaRepository.findById(id)
