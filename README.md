@@ -21,7 +21,7 @@
 
 # Consumo da API:
 
-### Link:
+### Link: https://api-import-gama-group.herokuapp.com/swagger-ui.html#/
 * 1: Realizar o cadastro de usuario
 * 2: Realizar o login para a geração do token
 * 3: consumir as funcionalidades utilizando o token.
