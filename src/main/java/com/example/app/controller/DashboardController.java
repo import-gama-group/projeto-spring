@@ -1,7 +1,7 @@
 package com.example.app.controller;
 
 import java.text.ParseException;
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app.service.LancamentoService;
+import com.example.app.utils.DashboardInterface;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -21,9 +23,11 @@ public class DashboardController {
 	
 
 	@GetMapping
-	public List<Object> listarLancamentos(@RequestParam(value="listarLancamentos", defaultValue="dataInicial") String dataInicial, 
-											@RequestParam(value="listarLancamentos", defaultValue="dataFinal") String dataFinal, 
-											@RequestParam(value="listarLancamentos", defaultValue="conta") String login ) throws ParseException{
+	@JsonView(DashboardInterface.class)
+	public Map<String, Object> listarLancamentos(@RequestParam String dataInicial, 
+										  @RequestParam String dataFinal, 
+										  @RequestParam String login ) throws ParseException {
+		
 		return lancamentoService.listarLancamentosPorData(dataInicial, dataFinal, login);
 	}
 	

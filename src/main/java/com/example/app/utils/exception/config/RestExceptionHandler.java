@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.example.app.utils.exception.BadRequestException;
+import com.example.app.utils.exception.DefaultErrorException;
 
 
 @ControllerAdvice
 public class RestExceptionHandler {
 	
-	@ExceptionHandler(BadRequestException.class)
-	public ResponseEntity<BadRequesExceptionsDetails> handlerBadRequestExeception(BadRequestException bre, HttpServletRequest request){
+	@ExceptionHandler(DefaultErrorException.class)
+	public ResponseEntity<BadRequesExceptionsDetails> handlerBadRequestExeception(DefaultErrorException bre, HttpServletRequest request){
 		BadRequesExceptionsDetails err = new BadRequesExceptionsDetails();
 				err.setTimestamp(Instant.now());
 				err.setStatus(HttpStatus.BAD_REQUEST.value());

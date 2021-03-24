@@ -26,7 +26,7 @@ import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
 import com.example.app.security.jwt.JWTConstants;
 import com.example.app.service.LoginService;
-import com.example.app.utils.exception.BadRequestException;
+import com.example.app.utils.exception.DefaultErrorException;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,17 +44,17 @@ public class LoginController {
 	private PasswordEncoder encoder;
 	
 	@PostMapping
-	public Sessao logar(@Valid @RequestBody LoginDTO login) throws BadRequestException{
+	public Sessao logar(@Valid @RequestBody LoginDTO usuario) throws DefaultErrorException{
 
 
-		Optional<Usuario> optuser = repository.findByLogin(login.getUsuario());
-		System.out.println(repository.findByLogin(login.getUsuario()));
-		Usuario usuario = optuser.get();
+		Optional<Usuario> optuser = repository.findByLogin(usuario.getLogin());
+		System.out.println(repository.findByLogin(usuario.getLogin()));
+		Usuario usuario1 = optuser.get();
 
-		boolean senhaOk = encoder.matches(login.getSenha(),usuario.getSenha());
+		boolean senhaOk = encoder.matches(usuario.getSenha(),usuario1.getSenha());
 
 		if (!senhaOk) {
-			throw new BadRequestException("Senha inválida para o login: " + login.getUsuario());
+			throw new DefaultErrorException("Senha inválida para o login: " + usuario.getLogin());
 		}
 
 		
@@ -63,7 +63,7 @@ public class LoginController {
 		sessao.setDataInicio(new Date(System.currentTimeMillis()));
 		sessao.setDataFim(new Date(System.currentTimeMillis() + tempoToken));
 		
-		sessao.setLogin(usuario.getLogin());
+		sessao.setLogin(usuario1.getLogin());
 
 		sessao.setToken(JWTConstants.PREFIX + getJWTToken(sessao));
 

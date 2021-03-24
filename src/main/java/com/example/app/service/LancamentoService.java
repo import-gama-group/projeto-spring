@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
 import com.example.app.repository.LancamentoRepository;
 import com.example.app.repository.UsuarioRepository;
-import com.example.app.utils.exception.BadRequestException;
+import com.example.app.utils.exception.DefaultErrorException;
 
 @Service
 public class LancamentoService {
@@ -87,16 +89,13 @@ public class LancamentoService {
 
 			lancamentoRepository.save(l);
 
-		} catch (BadRequestException e) {
-			 
+		} catch (DefaultErrorException e) {
+			
 		}
 	}
 
-	public List<Object> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
+	public Map<String, Object> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
 
-		
-		
-		// Conta contaId = contaService.findById(conta.getId());
 		Optional<Usuario> opp = usuarioRepository.findByLogin(login);
 		Usuario usuario = opp.get();
 		List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
@@ -104,20 +103,20 @@ public class LancamentoService {
 		Conta contaCredito = contas.get(1);
 
 		DateFormat formatter1 = new SimpleDateFormat("MM-dd-yy");
-		Date dataInicial = (Date) formatter1.parse(dataI);
+		Date dataInicial = formatter1.parse(dataI);
 		DateFormat formatter2 = new SimpleDateFormat("MM-dd-yy");
-		Date dataFinal = (Date) formatter2.parse(dataF);
+		Date dataFinal = formatter2.parse(dataF);
 
 		List<Lancamento> lancamentos = lancamentoRepository.findAll();
 
 		List<Lancamento> lancamentosContaBanco = listarLancamentos(lancamentos, contaBanco, dataInicial, dataFinal);
 		List<Lancamento> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
 
-		List<Object> listafinal = new ArrayList<>();
-		listafinal.add(contaBanco);
-		listafinal.add(contaCredito);
-		listafinal.add(lancamentosContaBanco);
-		listafinal.add(lancamentosContaCredito);
+		Map<String, Object> listafinal = new HashMap<>();
+		listafinal.put("contaDebito", contaBanco);
+		listafinal.put("contaCredito", contaCredito);
+		listafinal.put("lancamentosContaBanco", lancamentosContaBanco);
+		listafinal.put("lancamentosContaCredito", lancamentosContaCredito);
 
 		return listafinal;
 

@@ -10,7 +10,7 @@ import com.example.app.model.Conta.TipoConta;
 import com.example.app.model.PlanoConta.TipoMovimento;
 import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
-import com.example.app.utils.exception.BadRequestException;
+import com.example.app.utils.exception.DefaultErrorException;
 
 
 @Service
@@ -29,14 +29,12 @@ public class UsuarioService {
 	ContaService contaService;
 
 	@Transactional
-	public void cadastrarUsuario(Usuario usuario) throws BadRequestException{
+	public void cadastrarUsuario(Usuario usuario) throws DefaultErrorException{
 
 		if(usuarioRepository.existsByLogin(usuario.getLogin()))
-			throw new BadRequestException("Login já existente!");
+			throw new DefaultErrorException("Login já existente!");
 		
 		String senhaCriptografada = encoder.encode(usuario.getSenha());
-
-		String login = usuario.getLogin();
 
 		usuario.setSenha(senhaCriptografada);
 
@@ -54,13 +52,7 @@ public class UsuarioService {
 	}
 
 	public Usuario findById(Integer id) {
-		return usuarioRepository.findById(id).orElseThrow(() -> new BadRequestException("Id não encontrado."));
+		return usuarioRepository.findById(id).orElseThrow(() -> new DefaultErrorException("Id não encontrado."));
 	}
-
-
-	// public Usuario getByEmail(String email) {
-
-	// return usuarioRepository.findByEmail(email);
-	// }
 
 }
