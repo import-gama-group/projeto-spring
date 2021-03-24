@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app.service.LancamentoService;
+import com.example.app.utils.DashboardInterface;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -21,6 +23,7 @@ public class DashboardController {
 	
 
 	@GetMapping
+	@JsonView(DashboardInterface.class)
 	public List<Object> listarLancamentos(@RequestParam String dataInicial, 
 										  @RequestParam String dataFinal, 
 										  @RequestParam String login ) throws ParseException {
