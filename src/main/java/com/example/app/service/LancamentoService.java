@@ -26,6 +26,7 @@ import com.example.app.repository.ContaRepository;
 import com.example.app.repository.LancamentoRepository;
 import com.example.app.repository.UsuarioRepository;
 import com.example.app.utils.exception.DefaultErrorException;
+import com.example.app.utils.Formatador;
 
 @Service
 public class LancamentoService {
@@ -103,11 +104,9 @@ public class LancamentoService {
 		List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
 		Conta contaBanco = contas.get(0);
 		Conta contaCredito = contas.get(1);
-
-		DateFormat formatter1 = new SimpleDateFormat("MM-dd-yy");
-		Date dataInicial = formatter1.parse(dataI);
-		DateFormat formatter2 = new SimpleDateFormat("MM-dd-yy");
-		Date dataFinal = formatter2.parse(dataF);
+		
+		Date dataInicial = Formatador.stringParaDate(dataI);
+		Date dataFinal = Formatador.stringParaDate(dataF);
 
 		List<Lancamento> lancamentos = lancamentoRepository.findAll();
 
@@ -137,7 +136,7 @@ public class LancamentoService {
 				Map<String, Object> lancamentosConsolidados = new LinkedHashMap<>();		
 				
 				lancamentosConsolidados.put("id", lancamento.getId());
-				lancamentosConsolidados.put("data", lancamento.getDate());
+				lancamentosConsolidados.put("data", Formatador.formatarData(lancamento.getDate()));
 				lancamentosConsolidados.put("valor", lancamento.getValor());
 				lancamentosConsolidados.put("conta", lancamento.getConta().getId());
 				lancamentosConsolidados.put("descrição", lancamento.getDescricao());

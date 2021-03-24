@@ -1,6 +1,7 @@
 package com.example.app.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,6 +28,12 @@ public class Formatador {
 	public static String formatarData(Date data) {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 		return dateFormat.format(data);
+	}
+	
+	public static Date stringParaDate(String data) throws ParseException {
+		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
+	    Date dataFormatada = (Date)formatter.parse(data); 
+		return dataFormatada;
 	}
 
 }
