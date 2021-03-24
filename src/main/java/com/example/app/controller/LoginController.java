@@ -91,7 +91,7 @@ public class LoginController {
 		return service.solicitarNovaSenha(usuario);
 	  }
 	
-	@PostMapping("/altera-senha")
+	@PostMapping("/alterar-senha")
 	@ResponseBody
 	  public void alterarSenha(@RequestParam String login, @RequestParam String senhaTemporaria, @RequestParam String novaSenha ){
 		

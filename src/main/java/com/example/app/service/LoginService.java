@@ -13,8 +13,6 @@ import com.example.app.utils.exception.DefaultErrorException;
 @Service
 public class LoginService {
 
-
-
 	@Autowired
 	private UsuarioRepository repository;
 
@@ -37,12 +35,16 @@ public class LoginService {
 		Optional<Usuario> opp = repository.findByLogin(login);
 		Usuario usuario = opp.get();
 
-			if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senhaTemporaria) ) {
-				usuario.setSenha(novaSenha);
-				repository.save(usuario);
-				throw new DefaultErrorException("Não foi possível alterar a senha.");
-			}
-		
-
+			try {
+				if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senhaTemporaria) ) {
+					usuario.setSenha(novaSenha);
+					repository.save(usuario);
+					
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+			//throw new DefaultErrorException("Não foi possível alterar a senha.");
 	}
 }
