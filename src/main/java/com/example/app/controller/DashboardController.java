@@ -1,7 +1,7 @@
 package com.example.app.controller;
 
 import java.text.ParseException;
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,7 +24,7 @@ public class DashboardController {
 
 	@GetMapping
 	@JsonView(DashboardInterface.class)
-	public List<Object> listarLancamentos(@RequestParam String dataInicial, 
+	public Map<String, Object> listarLancamentos(@RequestParam String dataInicial, 
 										  @RequestParam String dataFinal, 
 										  @RequestParam String login ) throws ParseException {
 		
