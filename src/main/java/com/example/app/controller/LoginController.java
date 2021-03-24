@@ -26,7 +26,7 @@ import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
 import com.example.app.security.jwt.JWTConstants;
 import com.example.app.service.LoginService;
-import com.example.app.utils.exception.BadRequestException;
+import com.example.app.utils.exception.DefaultErrorException;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,7 +44,7 @@ public class LoginController {
 	private PasswordEncoder encoder;
 	
 	@PostMapping
-	public Sessao logar(@Valid @RequestBody LoginDTO usuario) throws BadRequestException{
+	public Sessao logar(@Valid @RequestBody LoginDTO usuario) throws DefaultErrorException{
 
 
 		Optional<Usuario> optuser = repository.findByLogin(usuario.getLogin());
@@ -54,7 +54,7 @@ public class LoginController {
 		boolean senhaOk = encoder.matches(usuario.getSenha(),usuario1.getSenha());
 
 		if (!senhaOk) {
-			throw new BadRequestException("Senha inválida para o login: " + usuario.getLogin());
+			throw new DefaultErrorException("Senha inválida para o login: " + usuario.getLogin());
 		}
 
 		

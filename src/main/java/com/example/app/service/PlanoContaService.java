@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.app.model.PlanoConta;
 import com.example.app.model.Usuario;
 import com.example.app.repository.PlanoContaRepository;
-import com.example.app.utils.exception.BadRequestException;
+import com.example.app.utils.exception.DefaultErrorException;
 import com.example.app.model.PlanoConta.TipoMovimento;
 
 @Service
@@ -44,14 +44,14 @@ public class PlanoContaService {
 				
 				planoContaRepository.save(plano);
 			}
-			throw new BadRequestException("Erro ao cadastrar plano de contas");
+			throw new DefaultErrorException("Erro ao cadastrar plano de contas");
 			
 	}
 
 
 	public PlanoConta findById(Integer id) {
 		return planoContaRepository.findById(id)
-				.orElseThrow(() -> new BadRequestException("Plano de Conta não encontrado."));
+				.orElseThrow(() -> new DefaultErrorException("Plano de Conta não encontrado."));
 	}
 
 
@@ -60,14 +60,13 @@ public class PlanoContaService {
 		Optional<PlanoConta> opp = planoContaRepository.findById(id);
 		PlanoConta plano = opp.get();
 
-		try {
+		
 			if (plano.getPadrao() == false) {
 				plano.setNome(novoNome);
 				planoContaRepository.save(plano);
+				throw new DefaultErrorException("Não foi possível alterar o plano de conta");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			
 		
 		return plano;
 	}
@@ -78,13 +77,13 @@ public class PlanoContaService {
 		Optional<PlanoConta> opp = planoContaRepository.findById(id);
 	    PlanoConta plano = opp.get();
 	    
-	    try {
+	    
 			if (plano.getPadrao() == false) {
 				planoContaRepository.delete(plano);	
+				throw new DefaultErrorException("Não foi possível deletar plano de contas.");
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
+			
+			
 	}
 	
 }

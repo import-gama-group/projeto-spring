@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.model.Conta;
 import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
-import com.example.app.utils.exception.BadRequestException;
+import com.example.app.utils.exception.DefaultErrorException;
 import com.example.app.model.Conta.TipoConta;
 
 @Service
@@ -30,7 +30,7 @@ public class ContaService {
 	public void debitar(Conta conta, Double valor) {
 
 		if (conta.getSaldo() < valor) {
-			throw new BadRequestException("Saldo insuficiente");
+			throw new DefaultErrorException("Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}
@@ -43,7 +43,7 @@ public class ContaService {
 	public void transferir(Conta conta, Double valor, Conta contaDestino) {
 		
 		if (conta.getSaldo() < valor) {
-			throw new BadRequestException("Saldo insuficiente");
+			throw new DefaultErrorException("Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}
@@ -55,7 +55,7 @@ public class ContaService {
 	
 	public Conta findById(Integer id) {
 	    return contaRepository.findById(id)
-	    		.orElseThrow(() -> new BadRequestException("Conta não encontrado."))
+	    		.orElseThrow(() -> new DefaultErrorException("Conta não encontrado."))
 	    		;
 	}
 	

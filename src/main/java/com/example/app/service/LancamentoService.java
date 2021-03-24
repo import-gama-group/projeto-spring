@@ -23,7 +23,7 @@ import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
 import com.example.app.repository.LancamentoRepository;
 import com.example.app.repository.UsuarioRepository;
-import com.example.app.utils.exception.BadRequestException;
+import com.example.app.utils.exception.DefaultErrorException;
 
 @Service
 public class LancamentoService {
@@ -89,8 +89,8 @@ public class LancamentoService {
 
 			lancamentoRepository.save(l);
 
-		} catch (BadRequestException e) {
-			 
+		} catch (DefaultErrorException e) {
+			
 		}
 	}
 
