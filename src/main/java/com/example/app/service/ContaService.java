@@ -66,7 +66,7 @@ public class ContaService {
 	
 	private String criarNumeroConta() {
 		Random rand = new Random();
-		Integer rand_int = rand.nextInt(9);
+		Integer rand_int = rand.nextInt(100000);
 		String numero = String.format("%06d", rand_int);
 		return numero;
 	} 
