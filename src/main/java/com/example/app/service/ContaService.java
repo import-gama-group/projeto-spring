@@ -18,9 +18,13 @@ public class ContaService {
 	ContaRepository contaRepository;
 	
 	public void criarConta(TipoConta tipo, Usuario usuario) {
-		//TODO impedir criação de conta com número existente
+		
 		Conta conta = new Conta();
-		conta.setNumero(criarNumeroConta()); 
+		conta.setNumero(criarNumeroConta());
+		
+		if(contaRepository.existsByNumero(conta.getNumero()))
+				throw new DefaultErrorException("Número de conta já existente!");		
+		
 		conta.setTipo(tipo);
 		conta.setUsuario(usuario);
 		
@@ -62,7 +66,7 @@ public class ContaService {
 	
 	private String criarNumeroConta() {
 		Random rand = new Random();
-		Integer rand_int = rand.nextInt(100000);
+		Integer rand_int = rand.nextInt(9);
 		String numero = String.format("%06d", rand_int);
 		return numero;
 	} 
