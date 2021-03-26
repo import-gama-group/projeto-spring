@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
-import com.example.app.utils.exception.DefaultErrorException;
 
 @Service
 public class LoginService {

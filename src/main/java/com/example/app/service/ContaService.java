@@ -3,7 +3,9 @@ package com.example.app.service;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.app.model.Conta;
 import com.example.app.model.Usuario;
@@ -35,7 +37,7 @@ public class ContaService {
 	public void debitar(Conta conta, Double valor) {
 
 		if (conta.getSaldo() < valor) {
-			throw new ArithmeticException("Saldo insuficiente");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}
@@ -48,7 +50,7 @@ public class ContaService {
 	public void transferir(Conta conta, Double valor, Conta contaDestino) {
 		
 		if (conta.getSaldo() < valor) {
-			throw new ArithmeticException("Saldo insuficiente");
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}

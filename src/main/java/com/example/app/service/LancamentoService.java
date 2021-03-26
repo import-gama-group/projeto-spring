@@ -1,18 +1,14 @@
 package com.example.app.service;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +21,6 @@ import com.example.app.model.Usuario;
 import com.example.app.repository.ContaRepository;
 import com.example.app.repository.LancamentoRepository;
 import com.example.app.repository.UsuarioRepository;
-import com.example.app.utils.exception.DefaultErrorException;
 import com.example.app.utils.Formatador;
 
 @Service
@@ -51,9 +46,7 @@ public class LancamentoService {
 
 	@Transactional
 
-	public void cadastrarLancamento(Lancamento lancamento) {
-
-		try {
+	public void cadastrarLancamento(Lancamento lancamento) throws Exception {
 
 			Conta conta = contaService.findById(lancamento.getConta().getId());
 			Usuario usuario = usuarioService.findById(conta.getUsuario().getId());
@@ -91,10 +84,6 @@ public class LancamentoService {
 			}
 
 			lancamentoRepository.save(l);
-
-		} catch (DefaultErrorException e) {
-			
-		}
 	}
 
 	public Map<String, Object> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
