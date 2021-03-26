@@ -47,20 +47,17 @@ public class LancamentoService {
 	@Transactional
 
 	public void cadastrarLancamento(Lancamento lancamento) throws Exception {
-
+			//coletando dados e instanciando o Lancamento
 			Conta conta = contaService.findById(lancamento.getConta().getId());
 			Usuario usuario = usuarioService.findById(conta.getUsuario().getId());
 			PlanoConta planoConta = planoContaService.findById(lancamento.getPlano().getId());
-
-			Date data = Calendar.getInstance().getTime();
-
+			Date data = Calendar.getInstance().getTime();			
 			Lancamento l = new Lancamento();
 			l.setDate(data);
 			l.setPlano(planoConta);
 			l.setConta(conta);
 			l.setValor(lancamento.getValor());
 			l.setDescricao(lancamento.getDescricao());
-
 			Double valor = lancamento.getValor();
 
 			if (planoConta.getTipo().equals(TipoMovimento.R) && planoConta.getNome().isEmpty()) {
@@ -74,15 +71,31 @@ public class LancamentoService {
 			} else if (planoConta.getTipo().equals(TipoMovimento.D)) {
 				contaService.debitar(conta, valor);
 			} else if (planoConta.getTipo().equals(TipoMovimento.TC)) {
+				//buscando a conta crédito do usuário para ser utilizada como conta destino 
 				List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
 				l.setContaDestino(contas.get(1));
-				Conta contaDestino = contas.get(1);
+				Conta contaDestino = contas.get(1);				
+				//clonando o lançamento para constar também na lista de lancamentos da outra conta
+				Lancamento lancContaDestino = (Lancamento) l.clone();			
+				lancContaDestino.setConta(contaDestino);
+				lancContaDestino.setDescricao("Recebido da conta corrente");
+				
+				lancamentoRepository.save(lancContaDestino);
+				
 				contaService.transferir(conta, valor, contaDestino);
+
 			} else if (planoConta.getTipo().equals(TipoMovimento.TU)) {
 				Conta contaDest = lancamento.getContaDestino();
+				//clonando o lançamento para constar também na lista de lancamentos da outra conta
+				Lancamento lancContaDestino = (Lancamento) l.clone();
+				lancContaDestino.setConta(contaDest);
+				lancContaDestino.setDescricao("Recebido de: " + l.getConta().getUsuario().getNome());
+				
+				lancamentoRepository.save(lancContaDestino);
+				
 				contaService.transferir(conta, valor, contaDest);
 			}
-
+			
 			lancamentoRepository.save(l);
 	}
 
