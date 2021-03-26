@@ -68,53 +68,60 @@ public class LancamentoService {
 			} else if (planoConta.getTipo().equals(TipoMovimento.D)) {
 				contaService.debitar(conta, valor);
 			} else if (planoConta.getTipo().equals(TipoMovimento.TC)) {
-				//buscando a conta crédito do usuário para ser utilizada como conta destino 
-				List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
-				l.setContaDestino(contas.get(1));
-				Conta contaDestino = contas.get(1);
-				
-				//clonando o lançamento para constar também na lista de lancamentos da outra conta
-				Lancamento lancContaDestino = (Lancamento) l.clone();
-				
-				lancContaDestino.setConta(contaDestino);
-				lancContaDestino.setDescricao("Recebido da conta corrente");
-				
-				lancamentoRepository.save(lancContaDestino);
-				
-				contaService.transferir(conta, valor, contaDestino);
-
+				transferirEntreContas(usuario, l, conta, valor);
 			} else if (planoConta.getTipo().equals(TipoMovimento.TU)) {
-				Optional <Conta> contaOpp = contaRepository.findById(lancamento.getContaDestino().getId());
-				Conta contaDest = contaOpp.get();
-				
-				//clonando o lançamento para constar também na lista de lancamentos da outra conta
-				Lancamento lancContaDestino = (Lancamento) l.clone();
-				lancContaDestino.setConta(contaDest);
-			    PlanoConta novoplanoDestino = new PlanoConta();
-			    List<PlanoConta> planosDestino = planoRepository.findByUsuarioId(contaDest.getUsuario().getId());
-				
-			    novoplanoDestino = planosDestino.get(0); //Pegando plano de Receita do usuario destino
-			    
-			    
-			    
-				lancContaDestino.setPlano(novoplanoDestino);
-				lancContaDestino.setDescricao("Recebido de: " + l.getConta().getUsuario().getNome());
-				
-				lancamentoRepository.save(lancContaDestino);
-				
-				
-				//Lançar origem:
-				PlanoConta novoplanoOrigin = new PlanoConta();
-			    List<PlanoConta> planosOrigin = planoRepository.findByUsuarioId(conta.getUsuario().getId());
-			    novoplanoOrigin = planosOrigin.get(1); //Pegando plano de Despesa do usuario
-			    
-				l.setPlano(novoplanoOrigin);
-				
-				contaService.transferir(conta, valor, contaDest);
+				transferirEntreUsuarios(lancamento, l, conta, valor);
 			}
 			
 			lancamentoRepository.save(l);
 	}
+	
+	public void transferirEntreContas(Usuario usuario, Lancamento l, Conta conta, Double valor) throws CloneNotSupportedException {
+		//buscando a conta crédito do usuário para ser utilizada como conta destino 
+		List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
+		l.setContaDestino(contas.get(1));
+		Conta contaDestino = contas.get(1);
+		
+		//realinhando o pointer do plano da conta origem
+		PlanoConta novoplanoOrigem = new PlanoConta();
+	    List<PlanoConta> planosOrigem = planoRepository.findByUsuarioId(contaDestino.getUsuario().getId());
+	    novoplanoOrigem = planosOrigem.get(1); //Pegando plano de Receita do usuario destino			    
+		l.setPlano(novoplanoOrigem);
+	    //criando o lancamento para a conta destino
+	    Lancamento lancContaDestino = (Lancamento) l.clone();
+		lancContaDestino.setConta(contaDestino);
+		lancContaDestino.setDescricao("Recebido da conta corrente");
+		lancContaDestino.setPlano(planosOrigem.get(0));
+		
+		lancamentoRepository.save(lancContaDestino);
+		
+		contaService.transferir(conta, valor, contaDestino);
+	}
+	
+	public void transferirEntreUsuarios(Lancamento lancamento, Lancamento l, Conta conta, Double valor) throws CloneNotSupportedException {
+		Optional <Conta> contaOpp = contaRepository.findById(lancamento.getContaDestino().getId());
+		Conta contaDest = contaOpp.get();
+		
+		//clonando o lançamento para constar também na lista de lancamentos da outra conta
+		Lancamento lancContaDestino = (Lancamento) l.clone();
+		lancContaDestino.setConta(contaDest);
+	    PlanoConta novoplanoDestino = new PlanoConta();
+	    List<PlanoConta> planosDestino = planoRepository.findByUsuarioId(contaDest.getUsuario().getId());
+	    novoplanoDestino = planosDestino.get(0); //Pegando plano de Receita do usuario destino			    
+		lancContaDestino.setPlano(novoplanoDestino);
+		lancContaDestino.setDescricao("Recebido de: " + l.getConta().getUsuario().getNome());
+		
+		lancamentoRepository.save(lancContaDestino);
+		
+		//Lançar origem:
+		PlanoConta novoplanoOrigin = new PlanoConta();
+	    List<PlanoConta> planosOrigin = planoRepository.findByUsuarioId(conta.getUsuario().getId());
+	    novoplanoOrigin = planosOrigin.get(1); //Pegando plano de Despesa do usuario
+		l.setPlano(novoplanoOrigin);
+		
+		contaService.transferir(conta, valor, contaDest);
+	}
+	
 
 	public Map<String, Object> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
 
