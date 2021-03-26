@@ -35,6 +35,9 @@ public class LancamentoService {
 	
 	@Autowired
 	private PlanoContaRepository planoRepository;
+	
+	@Autowired
+	UsuarioRepository usuarioRepository;
 
 	@Autowired
 	private ContaService contaService;
@@ -44,13 +47,8 @@ public class LancamentoService {
 
 	@Autowired
 	UsuarioService usuarioService;
-
-	@Autowired
-	UsuarioRepository usuarioRepository;
 	
-
 	@Transactional
-
 	public void cadastrarLancamento(Lancamento lancamento) throws Exception {
 			//coletando dados e instanciando o Lancamento
 			Conta conta = contaService.findById(lancamento.getConta().getId());
@@ -65,14 +63,8 @@ public class LancamentoService {
 			l.setDescricao(lancamento.getDescricao());
 			Double valor = lancamento.getValor();
 
-			if (planoConta.getTipo().equals(TipoMovimento.R) && planoConta.getNome().isEmpty()) {
-				planoConta.setNome("RECEITA");
+			if (planoConta.getTipo().equals(TipoMovimento.R)) {
 				contaService.creditar(conta, valor);
-			} else if (planoConta.getTipo().equals(TipoMovimento.R)) {
-				contaService.creditar(conta, valor);
-			} else if (planoConta.getTipo().equals(TipoMovimento.D) && planoConta.getNome().isEmpty()) {
-				planoConta.setNome("DESPESA");
-				contaService.debitar(conta, valor);
 			} else if (planoConta.getTipo().equals(TipoMovimento.D)) {
 				contaService.debitar(conta, valor);
 			} else if (planoConta.getTipo().equals(TipoMovimento.TC)) {
@@ -80,7 +72,6 @@ public class LancamentoService {
 				List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
 				l.setContaDestino(contas.get(1));
 				Conta contaDestino = contas.get(1);
-				
 				
 				//clonando o lançamento para constar também na lista de lancamentos da outra conta
 				Lancamento lancContaDestino = (Lancamento) l.clone();
