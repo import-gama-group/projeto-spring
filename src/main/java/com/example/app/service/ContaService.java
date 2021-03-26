@@ -1,5 +1,7 @@
 package com.example.app.service;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,14 @@ public class ContaService {
 	@Autowired
 	ContaRepository contaRepository;
 	
-	public void criarConta(Integer numero, TipoConta tipo, Usuario usuario) {
+	public void criarConta(TipoConta tipo, Usuario usuario) {
 		
 		Conta conta = new Conta();
-		conta.setNumero(numero); 
+		conta.setNumero(criarNumeroConta());
+		
+		if(contaRepository.existsByNumero(conta.getNumero()))
+				throw new DefaultErrorException("Número de conta já existente!");		
+		
 		conta.setTipo(tipo);
 		conta.setUsuario(usuario);
 		
@@ -26,11 +32,10 @@ public class ContaService {
 		
 	}
 	
-
 	public void debitar(Conta conta, Double valor) {
 
 		if (conta.getSaldo() < valor) {
-			throw new DefaultErrorException("Saldo insuficiente");
+			throw new ArithmeticException("Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}
@@ -43,7 +48,7 @@ public class ContaService {
 	public void transferir(Conta conta, Double valor, Conta contaDestino) {
 		
 		if (conta.getSaldo() < valor) {
-			throw new DefaultErrorException("Saldo insuficiente");
+			throw new ArithmeticException("Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}
@@ -59,5 +64,10 @@ public class ContaService {
 	    		;
 	}
 	
-	//TODO criar metodo para gerar numero de conta randomico e não repetido
+	private String criarNumeroConta() {
+		Random rand = new Random();
+		Integer rand_int = rand.nextInt(100000);
+		String numero = String.format("%06d", rand_int);
+		return numero;
+	} 
 }

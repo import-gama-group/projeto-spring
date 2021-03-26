@@ -23,7 +23,7 @@ public class Conta {
 	private Usuario usuario;
 	
 	@JsonView(DashboardInterface.class)
-	private Integer numero;
+	private String numero;
 	
 	@JsonView(DashboardInterface.class)
 	private Double saldo;
@@ -33,10 +33,10 @@ public class Conta {
 	private TipoConta tipo;	
 	
 	public Conta() {
-		this(null, null, 0, 0.0, null );
+		this(null, null, null, 0.0, null );
 	}
 	// Constructor
-	public Conta(Usuario user, Integer id, Integer numero, Double saldo, TipoConta tipo) {
+	public Conta(Usuario user, Integer id, String numero, Double saldo, TipoConta tipo) {
 		this.id = id;
 		this.usuario = user;
 		this.numero = numero;
@@ -57,10 +57,10 @@ public class Conta {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 	public Double getSaldo() {
@@ -74,10 +74,6 @@ public class Conta {
 	}
 	public void setTipo(TipoConta tipo) {
 		this.tipo = tipo;
-	}
-
-	public void setNumero(Integer numero) {
-		this.numero = numero;
 	}
 
 	// ENUM

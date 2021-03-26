@@ -10,4 +10,5 @@ import com.example.app.model.Conta;
 @Repository
 public interface ContaRepository extends JpaRepository<Conta, Integer>{
 	List<Conta> findByUsuarioId(Integer id);
+	boolean existsByNumero(String numero);
 }

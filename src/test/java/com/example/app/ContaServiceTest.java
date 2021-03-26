@@ -37,8 +37,8 @@ public class ContaServiceTest {
 	
 	Usuario usuario1 = new Usuario(1,"fulaninho123","584698", "Fulano","758423485683", null);
 	Usuario usuario2 = new Usuario(2,"beltraninho123","584698", "Beltrano","758423485683", null);	
-	Conta conta1 = new Conta(usuario1, 1, 123456, 1000.0, TipoConta.BANCO);
-	Conta conta2 = new Conta(usuario2, 2, 123456, 0.0, TipoConta.CREDITO);
+	Conta conta1 = new Conta(usuario1, 1, "123456", 1000.0, TipoConta.BANCO);
+	Conta conta2 = new Conta(usuario2, 2, "789101", 0.0, TipoConta.CREDITO);
 
 	
 	@Test
