@@ -4,17 +4,22 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
 
+
 @Service
 public class LoginService {
 
 	@Autowired
 	private UsuarioRepository repository;
+	
+	@Autowired
+	PasswordEncoder encoder;
 
 	public String solicitarNovaSenha(Usuario usuario) {
 		Optional<Usuario> opp = repository.findByEmail(usuario.getEmail());
@@ -37,6 +42,9 @@ public class LoginService {
 
 
 		if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senhaTemporaria) ) {
+			//String senhaCrypt = encoder.encode(novaSenha); NÃO SERÁ NA UTILIZADO NA ALTERAÇÃO DE SENHA PARA FINS DEMONSTRATIVOS DA APRESENTAÇÃO
+			//usuario.setSenha(senhaCrypt);
+			
 			usuario.setSenha(novaSenha);
 			repository.save(usuario);
 

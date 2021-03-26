@@ -12,39 +12,39 @@ import com.example.app.utils.DashboardInterface;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
-public class Lancamento {
+public class Lancamento implements Cloneable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonView(DashboardInterface.class)
 	private Integer id;
-	
+
 	@JsonView(DashboardInterface.class)
 	private Date date;
-	
+
 	@ManyToOne
 	@JsonView(DashboardInterface.class)
 	private PlanoConta plano;
-	
+
 	@ManyToOne
 	@JsonView(DashboardInterface.class)
 	private Conta conta;
-	
+
 	@JsonView(DashboardInterface.class)
 	private String descricao;
-	
+
 	private String login;
-	
+
 	@JsonView(DashboardInterface.class)
 	private Double valor;
-	
+
 	@ManyToOne
 	@JsonView(DashboardInterface.class)
 	private Conta contaDestino;
-	
+
 	public Lancamento() {
 		this(null, null, null, null, null, null, null, null);
 	}
-	
+
 	// Constructor
 	public Lancamento(Integer id, Date date, PlanoConta plano, Conta conta, String descricao,
 			String login, Double valor, Conta contaDestino) {
@@ -58,7 +58,7 @@ public class Lancamento {
 		this.valor = valor;
 		this.contaDestino = contaDestino;
 	}
-	
+
 	// Getter and Setters
 	public Integer getId() {
 		return id;
@@ -107,5 +107,9 @@ public class Lancamento {
 	}
 	public void setContaDestino(Conta contaDestino) {
 		this.contaDestino = contaDestino;
+	}
+	// Clone
+	public Object clone()throws CloneNotSupportedException{  
+		return (Lancamento)super.clone();  
 	}
 }
