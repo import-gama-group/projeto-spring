@@ -3,12 +3,12 @@ package com.example.app.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.app.model.Usuario;
 import com.example.app.repository.UsuarioRepository;
-import com.example.app.utils.exception.DefaultErrorException;
 
 @Service
 public class LoginService {
@@ -23,9 +23,9 @@ public class LoginService {
 		System.out.println(usuario1);
 		usuario1.setSenha(usuario.getLogin() + "123");
 		repository.save(usuario1);
-		
+
 		String resultado = "{ \"senhaTemporaria\": \""+usuario1.getSenha()+"\" }";
-				
+
 		return resultado;
 
 	}
@@ -35,16 +35,13 @@ public class LoginService {
 		Optional<Usuario> opp = repository.findByLogin(login);
 		Usuario usuario = opp.get();
 
-			try {
-				if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senhaTemporaria) ) {
-					usuario.setSenha(novaSenha);
-					repository.save(usuario);
-					
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
-			//throw new DefaultErrorException("Não foi possível alterar a senha.");
+
+		if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senhaTemporaria) ) {
+			usuario.setSenha(novaSenha);
+			repository.save(usuario);
+
+		} else {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login e/ou senha temporária inválidos.");
+		}		
 	}
 }

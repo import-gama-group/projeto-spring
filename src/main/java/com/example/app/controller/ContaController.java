@@ -28,11 +28,15 @@ public class ContaController {
 		return contaRepository.findAll();
 	}
 	
+	@GetMapping("/usuario/{id}")
+	List<Conta> one(@PathVariable Integer id) {	    
+		return contaRepository.findByUsuarioId(id);
+	}
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Conta> findById(@PathVariable Integer id){
 		Conta obj = Contaservice.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
 	
 }

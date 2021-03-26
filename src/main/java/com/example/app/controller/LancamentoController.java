@@ -32,7 +32,7 @@ public class LancamentoController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void cadastrar(@RequestBody Lancamento lancamento) {
+	public void cadastrar(@RequestBody Lancamento lancamento) throws Exception {
 		service.cadastrarLancamento(lancamento);
 	}
 }
