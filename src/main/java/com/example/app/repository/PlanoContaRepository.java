@@ -12,5 +12,6 @@ import com.example.app.model.PlanoConta;
 public interface PlanoContaRepository extends JpaRepository<PlanoConta, Integer> {
 	public Optional<PlanoConta> findById(Integer id);
 	List<PlanoConta> findByUsuarioId(Integer id);
+	public List<PlanoConta> findAllById(Integer id);
 	
 }
