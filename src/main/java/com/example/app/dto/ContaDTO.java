@@ -3,16 +3,34 @@ package com.example.app.dto;
 import java.util.List;
 
 import com.example.app.model.Conta.TipoConta;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({ "id", "numero", "saldo", "tipo", "totalReceitas", "totalDespesas", "balanco", "lancamentos"})
 public class ContaDTO {
+	
+	@JsonProperty("id")
 	private Integer id;
+	
+	@JsonProperty("numero")
 	private String numero;
+	
+	@JsonProperty("saldo")
 	private Double saldo;
+	
+	@JsonProperty("tipo")
 	private TipoConta tipo;
 	
-	private Double totalCreditos;
-	private Double totalDebitos;
+	@JsonProperty("totalReceitas")
+	private Double totalReceitas;
 	
+	@JsonProperty("totalDespesas")
+	private Double totalDespesas;
+	
+	@JsonProperty("balanco")
+	private Double balanco;
+	
+	@JsonProperty("lancamentos")
 	private List<LancamentoDTO> lancamentos;
 
 	public Integer getId() {
@@ -48,19 +66,19 @@ public class ContaDTO {
 	}
 
 	public Double getTotalCreditos() {
-		return totalCreditos;
+		return totalReceitas;
 	}
 
-	public void setTotalCreditos(Double totalCreditos) {
-		this.totalCreditos = totalCreditos;
+	public void setTotalReceitas(Double totalReceitas) {
+		this.totalReceitas = totalReceitas;
 	}
 
 	public Double getTotalDebitos() {
-		return totalDebitos;
+		return totalDespesas;
 	}
 
-	public void setTotalDebitos(Double totalDebitos) {
-		this.totalDebitos = totalDebitos;
+	public void setTotalDespesas(Double totalDespesas) {
+		this.totalDespesas = totalDespesas;
 	}
 
 	public List<LancamentoDTO> getLancamentos() {
@@ -70,7 +88,13 @@ public class ContaDTO {
 	public void setLancamentos(List<LancamentoDTO> lancamentos) {
 		this.lancamentos = lancamentos;
 	}
-	
-	
+
+	public Double getSaldoPeriodo() {
+		return balanco;
+	}
+
+	public void setBalanco(Double balanco) {
+		this.balanco = balanco;
+	}
 	
 }

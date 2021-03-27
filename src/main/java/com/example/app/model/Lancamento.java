@@ -8,37 +8,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.example.app.utils.DashboardInterface;
-import com.fasterxml.jackson.annotation.JsonView;
-
 @Entity
 public class Lancamento implements Cloneable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonView(DashboardInterface.class)
 	private Integer id;
 
-	@JsonView(DashboardInterface.class)
 	private Date date;
 
 	@ManyToOne
-	@JsonView(DashboardInterface.class)
 	private PlanoConta plano;
 
 	@ManyToOne
-	@JsonView(DashboardInterface.class)
 	private Conta conta;
 
-	@JsonView(DashboardInterface.class)
 	private String descricao;
 
 	private String login;
 
-	@JsonView(DashboardInterface.class)
 	private Double valor;
 
 	@ManyToOne
-	@JsonView(DashboardInterface.class)
 	private Conta contaDestino;
 
 	public Lancamento() {

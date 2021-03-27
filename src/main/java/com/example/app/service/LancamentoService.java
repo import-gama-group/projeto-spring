@@ -162,30 +162,29 @@ public class LancamentoService {
 		List<LancamentoDTO> lancamentosContaBanco = listarLancamentos(lancamentos, contaBanco, dataInicial, dataFinal);
 		List<LancamentoDTO> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
 		
-		ContaDTO contaCredDTO = new ContaDTO();
-		contaCredDTO.setId(contaCredito.getId());
-		contaCredDTO.setNumero(contaCredito.getNumero());
-		contaCredDTO.setSaldo(contaCredito.getSaldo());
-		contaCredDTO.setTipo(contaCredito.getTipo());
-		contaCredDTO.setTotalCreditos(totCredCredito);
-		contaCredDTO.setTotalDebitos(totDebCredito);
-		contaCredDTO.setLancamentos(lancamentosContaCredito);
-		
 		ContaDTO contaDebDTO = new ContaDTO();
 		contaDebDTO.setId(contaBanco.getId());
 		contaDebDTO.setNumero(contaBanco.getNumero());
 		contaDebDTO.setSaldo(contaBanco.getSaldo());
 		contaDebDTO.setTipo(contaBanco.getTipo());
-		contaDebDTO.setTotalCreditos(totCredBanco);
-		contaDebDTO.setTotalDebitos(totDebBanco);
+		contaDebDTO.setTotalReceitas(totCredBanco);
+		contaDebDTO.setTotalDespesas(totDebBanco);
+		contaDebDTO.setBalanco(totCredBanco - totDebBanco);
 		contaDebDTO.setLancamentos(lancamentosContaBanco);
+		
+		ContaDTO contaCredDTO = new ContaDTO();
+		contaCredDTO.setId(contaCredito.getId());
+		contaCredDTO.setNumero(contaCredito.getNumero());
+		contaCredDTO.setSaldo(contaCredito.getSaldo());
+		contaCredDTO.setTipo(contaCredito.getTipo());
+		contaCredDTO.setTotalReceitas(totCredCredito);
+		contaCredDTO.setTotalDespesas(totDebCredito);
+		contaCredDTO.setBalanco(totCredCredito - totDebCredito);
+		contaCredDTO.setLancamentos(lancamentosContaCredito);
 		
 		DashboardDTO dashboard = new DashboardDTO();
 		dashboard.setContaDebito(contaDebDTO);
 		dashboard.setContaCredito(contaCredDTO);
-		
-		
-		System.out.println(dashboard);
 		
 		return dashboard;
 		
@@ -208,7 +207,7 @@ public class LancamentoService {
 				lancamentoDTO.setDescrição(lancamento.getDescricao());
 				lancamentoDTO.setPlano(lancamento.getPlano().getId());
 				lancamentoDTO.setTipo(lancamento.getPlano().getTipo());
-
+				
 				lancamentosDTO.add(lancamentoDTO);
 
 			}

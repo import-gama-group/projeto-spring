@@ -1,15 +1,33 @@
 package com.example.app.dto;
 
 import com.example.app.model.PlanoConta.TipoMovimento;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({ "id", "data", "valor", "descricao", "conta", "plano", "tipo"})
 public class LancamentoDTO {
+	
+	@JsonProperty("id")
 	private Integer id;
+	
+	@JsonProperty("data")
 	private String data;
+	
+	@JsonProperty("valor")
 	private Double valor;
+	
+	@JsonProperty("conta")
 	private Integer conta;
+	
+	@JsonProperty("descricao")
 	private String descrição;
+	
+	@JsonProperty("plano")
 	private Integer plano;
+	
+	@JsonProperty("tipo")
 	private TipoMovimento tipo;
+	
 	public Integer getId() {
 		return id;
 	}
