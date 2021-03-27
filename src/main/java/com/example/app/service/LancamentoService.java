@@ -168,7 +168,7 @@ public class LancamentoService {
 		contaCredDTO.setSaldo(contaCredito.getSaldo());
 		contaCredDTO.setTipo(contaCredito.getTipo());
 		contaCredDTO.setTotalCreditos(totCredCredito);
-		contaCredDTO.setTotalDebitos(totCredCredito);
+		contaCredDTO.setTotalDebitos(totDebCredito);
 		contaCredDTO.setLancamentos(lancamentosContaCredito);
 		
 		ContaDTO contaDebDTO = new ContaDTO();
