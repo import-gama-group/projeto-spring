@@ -8,28 +8,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.example.app.utils.DashboardInterface;
-import com.fasterxml.jackson.annotation.JsonView;
-
-
 @Entity
 public class Conta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonView(DashboardInterface.class)
 	private Integer id;
 	@ManyToOne
 
 	private Usuario usuario;
 	
-	@JsonView(DashboardInterface.class)
 	private String numero;
 	
-	@JsonView(DashboardInterface.class)
 	private Double saldo;
 	
 	@Enumerated(EnumType.STRING)
-	@JsonView(DashboardInterface.class)
 	private TipoConta tipo;	
 	
 	public Conta() {

@@ -1,18 +1,17 @@
 package com.example.app.controller;
 
 import java.text.ParseException;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.app.dto.DashboardDTO;
 import com.example.app.service.LancamentoService;
-import com.example.app.utils.DashboardInterface;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -23,8 +22,8 @@ public class DashboardController {
 	
 
 	@GetMapping
-	@JsonView(DashboardInterface.class)
-	public Map<String, Object> listarLancamentos(@RequestParam String dataInicial, 
+	@ResponseStatus(HttpStatus.CREATED)
+	public DashboardDTO listarLancamentos(@RequestParam String dataInicial, 
 										  @RequestParam String dataFinal, 
 										  @RequestParam String login ) throws ParseException {
 		
