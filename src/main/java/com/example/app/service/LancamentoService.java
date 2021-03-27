@@ -4,15 +4,16 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.app.dto.ContaDTO;
+import com.example.app.dto.DashboardDTO;
+import com.example.app.dto.LancamentoDTO;
 import com.example.app.model.Conta;
 import com.example.app.model.Conta.TipoConta;
 import com.example.app.model.Lancamento;
@@ -123,8 +124,8 @@ public class LancamentoService {
 	}
 
 
-	public Map<String, Object> listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
-
+	public DashboardDTO listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
+			
 		Optional<Usuario> opp = usuarioRepository.findByLogin(login);
 		Usuario usuario = opp.get();
 		List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
@@ -158,50 +159,61 @@ public class LancamentoService {
 			}
 		}
 
-		List<Object> lancamentosContaBanco = listarLancamentos(lancamentos, contaBanco, dataInicial, dataFinal);
-		List<Object> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
-
-		Map<String, Object> listafinal = new LinkedHashMap<>();
-		listafinal.put("contaDebito", contaBanco);
-		listafinal.put("TotalCreditosBanco", totCredBanco);
-		listafinal.put("TotalDebitosBanco", totDebBanco);
-		listafinal.put("SaldoDoPeriodoBanco", totCredBanco - totDebBanco);
-		listafinal.put("contaCredito", contaCredito);
-		listafinal.put("TotalCreditosCredito", totCredCredito);
-		listafinal.put("TotalDebitosCredito", totDebCredito);
-		listafinal.put("SaldoDoPeriodoCredito", totCredCredito - totDebCredito);
-		listafinal.put("lancamentosContaBanco", lancamentosContaBanco);
-		listafinal.put("lancamentosContaCredito", lancamentosContaCredito);
-
-		return listafinal;
-
+		List<LancamentoDTO> lancamentosContaBanco = listarLancamentos(lancamentos, contaBanco, dataInicial, dataFinal);
+		List<LancamentoDTO> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
+		
+		ContaDTO contaCredDTO = new ContaDTO();
+		contaCredDTO.setId(contaCredito.getId());
+		contaCredDTO.setNumero(contaCredito.getNumero());
+		contaCredDTO.setSaldo(contaCredito.getSaldo());
+		contaCredDTO.setTipo(contaCredito.getTipo());
+		contaCredDTO.setTotalCreditos(totCredCredito);
+		contaCredDTO.setTotalDebitos(totCredCredito);
+		contaCredDTO.setLancamentos(lancamentosContaCredito);
+		
+		ContaDTO contaDebDTO = new ContaDTO();
+		contaDebDTO.setId(contaBanco.getId());
+		contaDebDTO.setNumero(contaBanco.getNumero());
+		contaDebDTO.setSaldo(contaBanco.getSaldo());
+		contaDebDTO.setTipo(contaBanco.getTipo());
+		contaDebDTO.setTotalCreditos(totCredBanco);
+		contaDebDTO.setTotalDebitos(totDebBanco);
+		contaDebDTO.setLancamentos(lancamentosContaBanco);
+		
+		DashboardDTO dashboard = new DashboardDTO();
+		dashboard.setContaDebito(contaDebDTO);
+		dashboard.setContaCredito(contaCredDTO);
+		
+		
+		System.out.println(dashboard);
+		
+		return dashboard;
+		
 	}
 
-	public List<Object> listarLancamentos(List<Lancamento> lancamentos, Conta conta, Date dataInicial, Date dataFinal) {
+	public List<LancamentoDTO> listarLancamentos(List<Lancamento> lancamentos, Conta conta, Date dataInicial, Date dataFinal){ 
 
-
-		List<Object> listaTeste= new ArrayList<Object>();
+		List<LancamentoDTO> lancamentosDTO= new ArrayList<LancamentoDTO>();
 
 		for (Lancamento lancamento : lancamentos) {
 			Date dataLancamento = lancamento.getDate();
 			if (lancamento.getConta().getId() == conta.getId()
 					&& (dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal))) {
 
-				Map<String, Object> lancamentosConsolidados = new LinkedHashMap<>();		
+				LancamentoDTO lancamentoDTO = new LancamentoDTO(); 		
+				lancamentoDTO.setId(lancamento.getId());
+				lancamentoDTO.setData(Formatador.formatarData(lancamento.getDate()));
+				lancamentoDTO.setValor(lancamento.getValor());
+				lancamentoDTO.setConta(lancamento.getConta().getId());
+				lancamentoDTO.setDescrição(lancamento.getDescricao());
+				lancamentoDTO.setPlano(lancamento.getPlano().getId());
+				lancamentoDTO.setTipo(lancamento.getPlano().getTipo());
 
-				lancamentosConsolidados.put("id", lancamento.getId());
-				lancamentosConsolidados.put("data", Formatador.formatarData(lancamento.getDate()));
-				lancamentosConsolidados.put("valor", lancamento.getValor());
-				lancamentosConsolidados.put("conta", lancamento.getConta().getId());
-				lancamentosConsolidados.put("descrição", lancamento.getDescricao());
-				lancamentosConsolidados.put("plano", lancamento.getPlano().getId());
-				lancamentosConsolidados.put("tipo", lancamento.getPlano().getTipo());
-
-				listaTeste.add(lancamentosConsolidados);
+				lancamentosDTO.add(lancamentoDTO);
 
 			}
 		}
-		return listaTeste;
+		return lancamentosDTO;
 	}
 
 }
