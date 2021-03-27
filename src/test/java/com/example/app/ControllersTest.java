@@ -89,7 +89,7 @@ public class ControllersTest {
 	@Test
 	public void LancamentoTestSave() throws JsonProcessingException, Exception {
 		Usuario usuario1 = new Usuario(1,"fulaninho123","584698", "Fulano","758423485683", "fulano@email.com");	
-		Conta conta1 = new Conta(usuario1, 1, "123456", 0.0, TipoConta.BANCO);
+		Conta conta1 = new Conta(usuario1, 1, "123456", 0.0, TipoConta.BANCO, 0.0);
 		PlanoConta plano1 = new PlanoConta(1, usuario1,"RECEITAS", TipoMovimento.R, true);
 		Lancamento lancamento = new Lancamento(1, null, plano1, conta1, "recebendo uma grana", "12345", 500000.00, null);
 		

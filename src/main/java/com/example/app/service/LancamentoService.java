@@ -58,11 +58,6 @@ public class LancamentoService {
 		PlanoConta planoConta = planoContaService.findById(lancamento.getPlano().getId());
 		Date data = Calendar.getInstance().getTime();	
 		
-		System.out.println(conta.getId());
-		System.out.println(conta.getLimite());
-		System.out.println(conta.getNumero());
-		System.out.println(conta.getSaldo());
-		
 		Lancamento l = new Lancamento();
 		l.setDate(data);
 		l.setPlano(planoConta);
