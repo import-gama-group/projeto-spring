@@ -65,7 +65,7 @@ public class ContaDTO {
 		this.tipo = tipo;
 	}
 
-	public Double getTotalCreditos() {
+	public Double getTotalReceitas() {
 		return totalReceitas;
 	}
 
@@ -73,12 +73,20 @@ public class ContaDTO {
 		this.totalReceitas = totalReceitas;
 	}
 
-	public Double getTotalDebitos() {
+	public Double getTotalDespesas() {
 		return totalDespesas;
 	}
 
 	public void setTotalDespesas(Double totalDespesas) {
 		this.totalDespesas = totalDespesas;
+	}
+
+	public Double getBalanco() {
+		return balanco;
+	}
+
+	public void setBalanco(Double balanco) {
+		this.balanco = balanco;
 	}
 
 	public List<LancamentoDTO> getLancamentos() {
@@ -87,14 +95,6 @@ public class ContaDTO {
 
 	public void setLancamentos(List<LancamentoDTO> lancamentos) {
 		this.lancamentos = lancamentos;
-	}
-
-	public Double getSaldoPeriodo() {
-		return balanco;
-	}
-
-	public void setBalanco(Double balanco) {
-		this.balanco = balanco;
 	}
 	
 }
