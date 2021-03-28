@@ -56,7 +56,8 @@ public class LancamentoService {
 		Conta conta = contaService.findById(lancamento.getConta().getId());
 		Usuario usuario = usuarioService.findById(conta.getUsuario().getId());
 		PlanoConta planoConta = planoContaService.findById(lancamento.getPlano().getId());
-		Date data = Calendar.getInstance().getTime();			
+		Date data = Calendar.getInstance().getTime();	
+		
 		Lancamento l = new Lancamento();
 		l.setDate(data);
 		l.setPlano(planoConta);

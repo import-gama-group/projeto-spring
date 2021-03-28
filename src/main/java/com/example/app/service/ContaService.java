@@ -19,7 +19,7 @@ public class ContaService {
 	@Autowired
 	ContaRepository contaRepository;
 	
-	public void criarConta(TipoConta tipo, Usuario usuario) {
+	public void criarConta(TipoConta tipo, Usuario usuario, Double limite) {
 		
 		Conta conta = new Conta();
 		conta.setNumero(criarNumeroConta());
@@ -29,6 +29,7 @@ public class ContaService {
 		
 		conta.setTipo(tipo);
 		conta.setUsuario(usuario);
+		conta.setLimite(limite);
 		
 		contaRepository.save(conta);
 		
@@ -36,7 +37,7 @@ public class ContaService {
 	
 	public void debitar(Conta conta, Double valor) {
 
-		if (conta.getSaldo() < valor) {
+		if ((conta.getLimite() + conta.getSaldo()) < valor) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
@@ -49,7 +50,7 @@ public class ContaService {
 	
 	public void transferir(Conta conta, Double valor, Conta contaDestino) {
 		
-		if (conta.getSaldo() < valor) {
+		if ((conta.getLimite() + conta.getSaldo()) < valor) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);

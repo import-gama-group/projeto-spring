@@ -40,8 +40,8 @@ public class UsuarioService {
 
 		usuarioRepository.save(usuario);
 
-		contaService.criarConta(TipoConta.BANCO, usuario);
-		contaService.criarConta(TipoConta.CREDITO, usuario);
+		contaService.criarConta(TipoConta.BANCO, usuario, 0.0);
+		contaService.criarConta(TipoConta.CREDITO, usuario, 2000.0);
 
 		planoContaService.criarPlanoContaPadrao(usuario, "RECEITAS", TipoMovimento.R, true);
 		planoContaService.criarPlanoContaPadrao(usuario, "DESPESAS", TipoMovimento.D, true);
