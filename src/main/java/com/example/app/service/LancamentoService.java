@@ -57,7 +57,7 @@ public class LancamentoService {
 		Usuario usuario = usuarioService.findById(conta.getUsuario().getId());
 		PlanoConta planoConta = planoContaService.findById(lancamento.getPlano().getId());
 		Date data = Calendar.getInstance().getTime();	
-		
+
 		Lancamento l = new Lancamento();
 		l.setDate(data);
 		l.setPlano(planoConta);
@@ -126,7 +126,7 @@ public class LancamentoService {
 
 
 	public DashboardDTO listarLancamentosPorData(String dataI, String dataF, String login) throws ParseException {
-			
+
 		Optional<Usuario> opp = usuarioRepository.findByLogin(login);
 		Usuario usuario = opp.get();
 		List<Conta> contas = contaRepository.findByUsuarioId(usuario.getId());
@@ -143,26 +143,34 @@ public class LancamentoService {
 		Double totCredCredito = 0.0;
 		Double totDebCredito = 0.0;
 
+		List<LancamentoDTO> lancamentosContaBanco = new ArrayList<LancamentoDTO>();
+		List<LancamentoDTO> lancamentosContaCredito = new ArrayList<LancamentoDTO>();
+
 		for (Lancamento lancamento : lancamentos) {
-			if (usuario.equals(lancamento.getPlano().getUsuario())) {
-				if(lancamento.getConta().getTipo().equals(TipoConta.BANCO) && lancamento.getPlano().getTipo().equals(TipoMovimento.R)) {
-					totCredBanco += lancamento.getValor();
-				}
-				if(lancamento.getConta().getTipo().equals(TipoConta.BANCO) && lancamento.getPlano().getTipo().equals(TipoMovimento.D)) {
-					totDebBanco += lancamento.getValor();
-				}
-				if(lancamento.getConta().getTipo().equals(TipoConta.CREDITO) && lancamento.getPlano().getTipo().equals(TipoMovimento.R)) {
-					totCredCredito += lancamento.getValor();
-				}
-				if(lancamento.getConta().getTipo().equals(TipoConta.CREDITO) && lancamento.getPlano().getTipo().equals(TipoMovimento.D)) {
-					totDebCredito += lancamento.getValor();
+			Date dataLancamento = lancamento.getDate();
+			if (lancamento.getConta().getId() == contaBanco.getId()
+					&& (dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal))) {
+				if (usuario.equals(lancamento.getPlano().getUsuario())) {
+					if(lancamento.getConta().getTipo().equals(TipoConta.BANCO) && lancamento.getPlano().getTipo().equals(TipoMovimento.R)) {
+						totCredBanco += lancamento.getValor();
+						lancamentosContaBanco.add(criarLancamentoDTO(lancamento));	
+					}
+					if(lancamento.getConta().getTipo().equals(TipoConta.BANCO) && lancamento.getPlano().getTipo().equals(TipoMovimento.D)) {
+						totDebBanco += lancamento.getValor();
+						lancamentosContaBanco.add(criarLancamentoDTO(lancamento));
+					}
+					if(lancamento.getConta().getTipo().equals(TipoConta.CREDITO) && lancamento.getPlano().getTipo().equals(TipoMovimento.R)) {
+						totCredCredito += lancamento.getValor();
+						lancamentosContaCredito.add(criarLancamentoDTO(lancamento));
+					}
+					if(lancamento.getConta().getTipo().equals(TipoConta.CREDITO) && lancamento.getPlano().getTipo().equals(TipoMovimento.D)) {
+						totDebCredito += lancamento.getValor();
+						lancamentosContaCredito.add(criarLancamentoDTO(lancamento));
+					}
 				}
 			}
 		}
 
-		List<LancamentoDTO> lancamentosContaBanco = listarLancamentos(lancamentos, contaBanco, dataInicial, dataFinal);
-		List<LancamentoDTO> lancamentosContaCredito = listarLancamentos(lancamentos, contaCredito, dataInicial, dataFinal);
-		
 		ContaDTO contaDebDTO = new ContaDTO();
 		contaDebDTO.setId(contaBanco.getId());
 		contaDebDTO.setNumero(contaBanco.getNumero());
@@ -172,7 +180,7 @@ public class LancamentoService {
 		contaDebDTO.setTotalDespesas(totDebBanco);
 		contaDebDTO.setBalanco(totCredBanco - totDebBanco);
 		contaDebDTO.setLancamentos(lancamentosContaBanco);
-		
+
 		ContaDTO contaCredDTO = new ContaDTO();
 		contaCredDTO.setId(contaCredito.getId());
 		contaCredDTO.setNumero(contaCredito.getNumero());
@@ -182,38 +190,27 @@ public class LancamentoService {
 		contaCredDTO.setTotalDespesas(totDebCredito);
 		contaCredDTO.setBalanco(totCredCredito - totDebCredito);
 		contaCredDTO.setLancamentos(lancamentosContaCredito);
-		
+
 		DashboardDTO dashboard = new DashboardDTO();
 		dashboard.setContaDebito(contaDebDTO);
 		dashboard.setContaCredito(contaCredDTO);
-		
+
 		return dashboard;
-		
+
 	}
 
-	public List<LancamentoDTO> listarLancamentos(List<Lancamento> lancamentos, Conta conta, Date dataInicial, Date dataFinal){ 
+	public LancamentoDTO criarLancamentoDTO(Lancamento lancamento){ 
 
-		List<LancamentoDTO> lancamentosDTO= new ArrayList<LancamentoDTO>();
+			LancamentoDTO lancamentoDTO = new LancamentoDTO(); 		
+			lancamentoDTO.setId(lancamento.getId());
+			lancamentoDTO.setData(Formatador.formatarData(lancamento.getDate()));
+			lancamentoDTO.setValor(lancamento.getValor());
+			lancamentoDTO.setConta(lancamento.getConta().getId());
+			lancamentoDTO.setDescrição(lancamento.getDescricao());
+			lancamentoDTO.setPlano(lancamento.getPlano().getId());
+			lancamentoDTO.setTipo(lancamento.getPlano().getTipo());
 
-		for (Lancamento lancamento : lancamentos) {
-			Date dataLancamento = lancamento.getDate();
-			if (lancamento.getConta().getId() == conta.getId()
-					&& (dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal))) {
-
-				LancamentoDTO lancamentoDTO = new LancamentoDTO(); 		
-				lancamentoDTO.setId(lancamento.getId());
-				lancamentoDTO.setData(Formatador.formatarData(lancamento.getDate()));
-				lancamentoDTO.setValor(lancamento.getValor());
-				lancamentoDTO.setConta(lancamento.getConta().getId());
-				lancamentoDTO.setDescrição(lancamento.getDescricao());
-				lancamentoDTO.setPlano(lancamento.getPlano().getId());
-				lancamentoDTO.setTipo(lancamento.getPlano().getTipo());
-				
-				lancamentosDTO.add(lancamentoDTO);
-
-			}
-		}
-		return lancamentosDTO;
+			return lancamentoDTO;
 	}
 
 }
