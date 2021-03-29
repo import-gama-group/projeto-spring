@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,7 +54,7 @@ public class LoginController {
 		boolean senhaOk = encoder.matches(usuario.getSenha(),usuario1.getSenha());
 
 		if (!senhaOk) {
-			throw new DefaultErrorException("Senha inválida para o login: " + usuario.getLogin());
+			throw new DefaultErrorException(HttpStatus.BAD_REQUEST, "Senha inválida para o login: " + usuario.getLogin());
 		}
 
 		

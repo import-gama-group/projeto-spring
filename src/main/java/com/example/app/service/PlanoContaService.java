@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.example.app.model.PlanoConta;
 import com.example.app.model.Usuario;
@@ -43,14 +42,14 @@ public class PlanoContaService {
 
 			planoContaRepository.save(plano);
 		} else {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Tipo de Movimento não autorizado.");
+			throw new DefaultErrorException(HttpStatus.NOT_ACCEPTABLE, "Tipo de Movimento não autorizado.");
 		}
 
 	}
 
 	public PlanoConta findById(Integer id) {
 		return planoContaRepository.findById(id)
-				.orElseThrow(() -> new DefaultErrorException("Plano de Conta não encontrado."));
+				.orElseThrow(() -> new DefaultErrorException(HttpStatus.BAD_REQUEST, "Plano de Conta não encontrado."));
 	}
 
 	public PlanoConta alterarNomePlanoConta(Integer id, String novoNome) {
@@ -62,7 +61,7 @@ public class PlanoContaService {
 			plano.setNome(novoNome);
 			planoContaRepository.save(plano);	
 		} else {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Não é permitido alterar um Plano de Conta Padrão");
+			throw new DefaultErrorException(HttpStatus.UNAUTHORIZED, "Não é permitido alterar um Plano de Conta Padrão");
 		}
 
 		return plano;
@@ -77,7 +76,7 @@ public class PlanoContaService {
 		if (plano.getPadrao().equals(false)) {
 			planoContaRepository.delete(plano);	
 		} else {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Não é permitido apagar um Plano de Conta Padrão");
+			throw new DefaultErrorException(HttpStatus.UNAUTHORIZED, "Não é permitido apagar um Plano de Conta Padrão");
 		}
 
 	}

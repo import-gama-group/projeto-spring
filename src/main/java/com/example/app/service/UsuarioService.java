@@ -3,6 +3,7 @@ package com.example.app.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class UsuarioService {
 	public void cadastrarUsuario(Usuario usuario) throws DefaultErrorException{
 
 		if(usuarioRepository.existsByLogin(usuario.getLogin()))
-			throw new DefaultErrorException("Login já existente!");
+			throw new DefaultErrorException(HttpStatus.BAD_REQUEST, "Login já existente!");
 		
 		String senhaCriptografada = encoder.encode(usuario.getSenha());
 
@@ -52,7 +53,7 @@ public class UsuarioService {
 	}
 
 	public Usuario findById(Integer id) {
-		return usuarioRepository.findById(id).orElseThrow(() -> new DefaultErrorException("Id não encontrado."));
+		return usuarioRepository.findById(id).orElseThrow(() -> new DefaultErrorException(HttpStatus.BAD_REQUEST, "Id não encontrado."));
 	}
 
 }
