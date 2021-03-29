@@ -148,8 +148,7 @@ public class LancamentoService {
 
 		for (Lancamento lancamento : lancamentos) {
 			Date dataLancamento = lancamento.getDate();
-			if (lancamento.getConta().getId() == contaBanco.getId()
-					&& (dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal))) {
+			if (dataLancamento.after(dataInicial) && dataLancamento.before(dataFinal)) {
 				if (usuario.equals(lancamento.getPlano().getUsuario())) {
 					if(lancamento.getConta().getTipo().equals(TipoConta.BANCO) && lancamento.getPlano().getTipo().equals(TipoMovimento.R)) {
 						totCredBanco += lancamento.getValor();
