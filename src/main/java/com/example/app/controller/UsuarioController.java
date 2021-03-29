@@ -20,7 +20,7 @@ import com.example.app.repository.UsuarioRepository;
 import com.example.app.service.UsuarioService;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 	
 	@Autowired
