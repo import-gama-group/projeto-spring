@@ -25,7 +25,7 @@ public class ContaService {
 		conta.setNumero(criarNumeroConta());
 		
 		if(contaRepository.existsByNumero(conta.getNumero()))
-				throw new DefaultErrorException("Número de conta já existente!");		
+				throw new DefaultErrorException(HttpStatus.BAD_REQUEST, "Número de conta já existente!");		
 		
 		conta.setTipo(tipo);
 		conta.setUsuario(usuario);
@@ -38,7 +38,7 @@ public class ContaService {
 	public void debitar(Conta conta, Double valor) {
 
 		if ((conta.getLimite() + conta.getSaldo()) < valor) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Saldo insuficiente");
+			throw new DefaultErrorException(HttpStatus.NOT_ACCEPTABLE, "Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}
@@ -51,7 +51,7 @@ public class ContaService {
 	public void transferir(Conta conta, Double valor, Conta contaDestino) {
 		
 		if ((conta.getLimite() + conta.getSaldo()) < valor) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Saldo insuficiente");
+			throw new DefaultErrorException(HttpStatus.NOT_ACCEPTABLE, "Saldo insuficiente");
 		} else {
 			conta.setSaldo(conta.getSaldo() - valor);
 		}
@@ -63,7 +63,7 @@ public class ContaService {
 	
 	public Conta findById(Integer id) {
 	    return contaRepository.findById(id)
-	    		.orElseThrow(() -> new DefaultErrorException("Conta não encontrado."))
+	    		.orElseThrow(() -> new DefaultErrorException(HttpStatus.BAD_REQUEST, "Conta não encontrado."))
 	    		;
 	}
 	
