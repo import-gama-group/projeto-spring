@@ -5,6 +5,5 @@ public class BadRequesExceptionsDetails extends ExceptionsDetails{
 	public BadRequesExceptionsDetails() {
 		super();
 	}
-
 	
 }

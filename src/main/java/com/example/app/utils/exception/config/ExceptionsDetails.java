@@ -2,12 +2,26 @@ package com.example.app.utils.exception.config;
 
 import java.time.Instant;
 
+import org.springframework.http.HttpStatus;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({ "timestamp", "path", "status", "message"})
 public class ExceptionsDetails {
-	private String message;
-	private Integer status;
-	private String error;
-	private String path;
+	
+	@JsonProperty("timestamp")
 	private Instant timestamp;
+	
+	@JsonProperty("message")
+	private String message;
+	
+	@JsonProperty("status")
+	private HttpStatus status;
+	
+	@JsonProperty("path")
+	private String path;
+	
 	
 	
 	public ExceptionsDetails() {
@@ -20,17 +34,11 @@ public class ExceptionsDetails {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public Integer getStatus() {
+	public HttpStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public String getError() {
-		return error;
-	}
-	public void setError(String error) {
-		this.error = error;
+	public void setStatus(HttpStatus httpStatus) {
+		this.status = httpStatus;
 	}
 	public String getPath() {
 		return path;
